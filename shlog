@@ -1,0 +1,51 @@
+#!/bin/sh
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#++
+# = SHLOG(1)
+# :Revision: 1.1
+# :Author: A Liu Ly
+# :man manual:  ashlib programmer's manual
+#
+# == NAME
+#
+# shlog - run a shell while logging its stdin
+#
+# == SYNOPSIS
+#
+# shlog _[sh args]_
+#
+# == DESCRIPTION
+#
+# Runs a *sh(1)* while logging its standard input.
+#
+# Input logs are rotated.
+#
+#--
+export PATH=$PATH:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
+logfile=$HOME/shlog
+nvers=35
+
+count=0
+for x in $(ls -1t $logfile.* 2>/dev/null)
+do
+  count=$(expr $count + 1)
+  [ $count -gt 35 ] && rm -f $x
+done
+
+rm -f $logfile
+tee $logfile | sh "$@" 2>&1
+ln -f $logfile $logfile.$(date +%F) # Y-m-d
