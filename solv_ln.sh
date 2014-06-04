@@ -1,8 +1,21 @@
 #!/bin/sh
 #
-# Resolves symbolic links so they are relative paths
-#
 solv_ln() {
+  ## Resolves symbolic links so they are relative paths
+  ## # USAGE
+  ##     solv_ln target linkname
+  ## # ARGS
+  ## * target - target path (as used with `ln -s`)
+  ## * linkname - link to be created
+  ## # OUTPUT
+  ## Relative path from linkname to target
+  ## # DESC
+  ## Given two paths in the same format as creating a symbolic link
+  ## using `ln -s`, it will return a relative path from `linknam` to
+  ## `target` as if `linknam` was a symbolic link to `target`.
+  ##
+  ## `target` and `linkname` can be provided as absolute or relative
+  ## paths.
   local target="$1" linknam="$2"
 
   [ -d "$linknam" ] && linknam=$linknam/$(basename $target)

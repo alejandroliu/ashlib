@@ -1,8 +1,13 @@
 #!/bin/sh
 #
-# Determine the current version information
-#
 gitver() {
+## Determine the current version information
+## # USAGE
+##     gitver _git-directory_
+## # ARGS
+## * git-directory : Directory to the git repository
+## # OUTPUT
+## version information
   local dir="$1" ; shift
   if [ -d "$dir/.git" ] ; then
     if type git >/dev/null 2>&1 ; then

@@ -1,51 +1,52 @@
 #!/bin/sh
 #
-# Reference functions
+## Symbolic/Reference functions
+##
+## Let's you add a level of indirection to shell scripts
 #
-#****f*
-# FUNCTION
-#   create a symbol from a given string
-#
-#   It is meant to sanitize text so it is suitable for variable nameing.
-# SYNOPSIS
-#   mksym txt
-# INPUTS
-#   txt -- text to convert into variable name
-# OUTPUT
-#   sanitized text
-#****
 mksym() {
+## create a symbol from a given string
+## # USAGE
+##    mksym txt
+## # ARGS
+## * txt -- text to convert into variable name
+## # OUTPUT
+## sanitized text
+## # DESC
+## Given an arbitrary input text, this creates a suitable symbol for
+## it.
+##
+## This function is meant to sanitize text so it is suitable for variable
+## nameing.
   tr ' /.a-z-' '___A-Z_'  <<<"$*"| tr -dc '_A-Z0-9'
 }
 
-#****f*
-# FUNCTION
-#   Assigns a value to the named variable.  It is intented to accept
-#   variables for the varname parameter
-# SYNOPSIS
-#   assign varname varvalue
-# INPUTS
-#   varname -- variable to assign a value
-#   value -- value to assign
-#****
 assign() {
+## Assigns a value to the named variable
+## # USAGE
+##     assign varname varvalue
+## # ARGS
+## * varname -- variable to assign a value
+## * value -- value to assign
+## # DESC
+## This function assigns a value to the named variable.  Unlink straight
+## assignment with `=`, the variable name can be a variable itself referring
+## to the actual variable.
   local var="$1"
   eval "$1=\"\$2\""
 }
 
-#****f*
-# FUNCTION
-#   Returns the value of varname.  It is meant to allow variables
-#   to be used for varnames.
-# SYNOPSIS
-#   get varname
-# INPUTS
-#   varname -- variable to lookup
-# OUTPUT
-#   value of varname
-#****
 get() {
+## Returns the value of varname.
+## # USAGE
+##   get varname
+## # ARGS
+## * varname -- variable to lookup.
+## # OUTPUT
+##   value of varname
+## # DESC
+## `get` will display the value of the provided varname.  Unlike direct
+## references with `$`, the varname can be itself a variable containing
+## the actual variable to be referenced.
   eval echo \"\$$1\"
 }
-
-

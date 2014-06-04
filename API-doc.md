@@ -38,7 +38,7 @@ The `core` module is included automatically.
 
 
 
-### <a name="id01"></a>find_in_path
+### <a name="id02"></a>find_in_path
 
 Determines if the specified file is in the path variable
 
@@ -61,7 +61,7 @@ full path of found file
 
 
 
-### <a name="id01"></a>include
+### <a name="id03"></a>include
 
 Include an `ashlib` module.
 
@@ -85,7 +85,7 @@ Some simple misc functions
 
 
 
-### <a name="id04"></a>fatal
+### <a name="id06"></a>fatal
 
 Fatal error
 
@@ -99,7 +99,7 @@ Show the fatal error on stderr and terminates the script.
 
 
 
-### <a name="id04"></a>warn
+### <a name="id05"></a>warn
 
   Show a warning on stderr
 
@@ -111,7 +111,7 @@ Show the fatal error on stderr and terminates the script.
 
 ## <a name="id07"></a>fixattr.sh
 
-### <a name="id07"></a>fixattr
+### <a name="id08"></a>fixattr
 
 Updates file attributes
 
@@ -135,7 +135,7 @@ owner user and owner groups.
 
 ## <a name="id09"></a>fixfile.sh
 
-### <a name="id09"></a>fixfile
+### <a name="id0a"></a>fixfile
 
 Function to modify files in-place.
 
@@ -171,22 +171,153 @@ Again, file is only written to if its conents change.
 
 ## <a name="id0b"></a>fixlnk.sh
 
-### <a name="id0b"></a>fixlnk
+### <a name="id0c"></a>fixlnk
+
+Function to update symlinks
+
+#### USAGE
+
+   fixlnk target lnk
+
+#### ARGS
+
+* target -- where the link should be pointing to
+* lnk -- where the link is to be created
+
+#### DESC
+
+Note that this will first check if the symlink needs to be corrected.
+Otherwise no action is taken.
+
+
 
 ## <a name="id0d"></a>refs.sh
 
-### <a name="id0d"></a>assign
+Symbolic/Reference functions
 
-### <a name="id0d"></a>get
+Let's you add a level of indirection to shell scripts
 
-### <a name="id0d"></a>mksym
+
+
+### <a name="id0f"></a>assign
+
+Assigns a value to the named variable
+
+#### USAGE
+
+    assign varname varvalue
+
+#### ARGS
+
+* varname -- variable to assign a value
+* value -- value to assign
+
+#### DESC
+
+This function assigns a value to the named variable.  Unlink straight
+assignment with `=`, the variable name can be a variable itself referring
+to the actual variable.
+
+
+
+### <a name="id10"></a>get
+
+Returns the value of varname.
+
+#### USAGE
+
+  get varname
+
+#### ARGS
+
+* varname -- variable to lookup.
+
+#### OUTPUT
+
+  value of varname
+
+#### DESC
+
+`get` will display the value of the provided varname.  Unlike direct
+references with `$`, the varname can be itself a variable containing
+the actual variable to be referenced.
+
+
+
+### <a name="id0e"></a>mksym
+
+create a symbol from a given string
+
+#### USAGE
+
+   mksym txt
+
+#### ARGS
+
+* txt -- text to convert into variable name
+
+#### OUTPUT
+
+sanitized text
+
+#### DESC
+
+Given an arbitrary input text, this creates a suitable symbol for
+it.
+
+This function is meant to sanitize text so it is suitable for variable
+nameing.
+
+
 
 ## <a name="id11"></a>solv_ln.sh
 
-### <a name="id11"></a>solv_ln
+### <a name="id12"></a>solv_ln
+
+Resolves symbolic links so they are relative paths
+
+#### USAGE
+
+    solv_ln target linkname
+
+#### ARGS
+
+* target - target path (as used with `ln -s`)
+* linkname - link to be created
+
+#### OUTPUT
+
+Relative path from linkname to target
+
+#### DESC
+
+Given two paths in the same format as creating a symbolic link
+using `ln -s`, it will return a relative path from `linknam` to
+`target` as if `linknam` was a symbolic link to `target`.
+
+`target` and `linkname` can be provided as absolute or relative
+paths.
+
+
 
 ## <a name="id13"></a>ver.sh
 
-### <a name="id13"></a>gitver
+### <a name="id14"></a>gitver
+
+Determine the current version information
+
+#### USAGE
+
+    gitver _git-directory_
+
+#### ARGS
+
+* git-directory : Directory to the git repository
+
+#### OUTPUT
+
+version information
+
+
 
 

@@ -13,19 +13,17 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#****f* fixfile/fixfile
-# FUNCTION
-#   Function to update symlinks
-#
-#   Note that this will first check if the symlink needs to be corrected.
-#   Otherwise no action is taken.
-# SYNOPSIS
-#   fixlnk target lnk
-# INPUTS
-#   target -- where the link should be pointing to
-#   lnk -- where the link is to be created
-#****
 fixlnk() {
+## Function to update symlinks
+## # USAGE
+##    fixlnk target lnk
+## # ARGS
+## * target -- where the link should be pointing to
+## * lnk -- where the link is to be created
+## # DESC
+## Note that this will first check if the symlink needs to be corrected.
+## Otherwise no action is taken.
+
   if [ $# -ne 2 ] ; then
     echo "Usage: fixlnk {target} {lnk}" 1>&2
     return 1

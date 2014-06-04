@@ -106,7 +106,7 @@ foreach my $f (sort keys %{$files}) {
 	print postproc($doctxt->{$f},'##'),"\n\n";
     }
     foreach my $s (sort @{$files->{$f}}) {
-	print "### ",anchor($f),$s,"\n\n";
+	print "### ",anchor($s),$s,"\n\n";
 	if ($doctxt->{$s}) {
 	    print postproc($doctxt->{$s},'###'),"\n\n";
 	}
