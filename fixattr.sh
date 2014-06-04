@@ -13,21 +13,18 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#****f* fixattr/fixattr
-# FUNCTION
-#   Makes sure the file has the appropriate attributes (permissions and
-#   ownership)
-# SYNOPSIS
-#   fixattr [options] file
-# INPUTS
-#   --mode=mode -- Target file mode
-#   --user=user -- User to own the file
-#   --group=group -- Group that owns the file
-#   file -- file to modify.
-#****
 fixattr() {
-  local MODE= USER= GROUP=
-
+  ## Updates file attributes
+  ## # USAGE
+  ##   fixattr [options] file
+  ## # OPTIONS
+  ## * --mode=mode -- Target file mode
+  ## * --user=user -- User to own the file
+  ## * --group=group -- Group that owns the file
+  ## * file -- file to modify.
+  ## # DESC
+  ## This function ensures that the given `file` has the defined file modes,
+  ## owner user and owner groups.
   while [ $# -gt 0 ]
   do
     case "$1" in

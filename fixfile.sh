@@ -13,34 +13,30 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#****f* fixfile/fixfile
-# FUNCTION
-#   Function to modify files in-place.
-#
-#   Files are modified in-place only if the contents change.  This means
-#   time stamps are kept accordingly.
-#
-#   <stdin> will be used as the contents of the new file unless --filter
-#   is specified.  When in filter mode, the <stdin> is a shell script
-#   that will be executed with <stdin> is the current contents of the
-#   file and <stdout> as the new contents of the file.
-#   Again, file is only written to if its conents change.
-# SYNOPSIS
-#   fixfile [options] file
-# INPUTS
-#   --mode=mode -- mode to set permissions to.
-#   --user=user -- set ownership to user
-#   --group=group -- set group to group
-#   --nobackup -- disable creation of backups
-#   --backupdir=dir -- if specified, backups are saved to the central dir.
-#   --backupext=ext -- Backups are created by adding ext.  Defaults to "~".
-#   --filter -- Use filter mode.  The stdin is used as an script that will
-#     modify stdin (current file) and the stdout is used as the new contents
-#     of the file.
-#   file -- file to modify
-#   <stdin> -- Will be the contents of the new file (unless --filter mode)
-#****
 fixfile() {
+  ## Function to modify files in-place.
+  ## # USAGE
+  ##   fixfile [options] file
+  ## # OPTIONS
+  ## * --mode=mode -- mode to set permissions to.
+  ## * --user=user -- set ownership to user
+  ## * --group=group -- set group to group
+  ## * --nobackup -- disable creation of backups
+  ## * --backupdir=dir -- if specified, backups are saved to the central dir.
+  ## * --backupext=ext -- Backups are created by adding ext.  Defaults to "~".
+  ## * --filter -- Use filter mode.  The stdin is used as an script that will
+  ##     modify stdin (current file) and the stdout is used as the new contents
+  ##     of the file.
+  ## * file -- file to modify
+  ## # DESC
+  ## Files are modified in-place only if the contents change.  This means
+  ## time stamps are kept accordingly.
+  ##
+  ## <stdin> will be used as the contents of the new file unless --filter
+  ## is specified.  When in filter mode, the <stdin> is a shell script
+  ## that will be executed with <stdin> is the current contents of the
+  ## file and <stdout> as the new contents of the file.
+  ## Again, file is only written to if its conents change.
   local MODE= USER= GROUP= BACKUPDIR= BACKUPEXT="~" FILTER=no
 
   while [ $# -gt 0 ]

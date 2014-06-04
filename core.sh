@@ -13,29 +13,21 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Some simple misc functions
+## Some simple misc functions
 #
-#****f* core/warn
-# FUNCTION
-#   Show a warning on stderr
-# SYNOPSIS
-#   warn message
-# INPUTS
-#   message -- text to display
-#****
 warn() {
+  ##   Show a warning on stderr
+  ## # USAGE
+  ##   warn message
   echo "$@" 1>&2
 }
 
-#****f* core/fatal
-# FUNCTION
-#   fatal error.  This will exit the script.
-# SYNOPSIS
-#   fatal message
-# INPUTS
-#   message -- text to display
-#****
 fatal() {
+  ## Fatal error
+  ## # USAGE
+  ##    fatal message
+  ## # DESC
+  ## Show the fatal error on stderr and terminates the script.
   echo "$@" 1>&2
   exit 1
 }

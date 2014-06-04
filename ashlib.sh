@@ -13,21 +13,25 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#****f* ashlib/find_in_path
-# FUNCTION
-#   Determines is the specified file is in the path variable
-# SYNOPSIS
-#   find_in_path needle haystack_variable
-# INPUTS
-#   needle -- item to find in the path variable
-#   haystack_variable -- name of the variable contining path
-# RETURN VALUE
-#   returns 1 if not found, 0 if found.
-# OUTPUT
-#   Shows the file found.
-#****
+#*#####################################################################
+## This is a implicit module automatically invoked by:
+##
+##    eval $(ashlib)
+##
+## The `core` module is included automatically.
+#*####################################################################
 
 find_in_path() {
+    ## Determines if the specified file is in the path variable
+    ## # USAGE
+    ##   find_in_path needle haystack_variable
+    ## # ARGS
+    ## * needle -- item to find in the path variable
+    ## * haystack_variable -- name of the variable contining path
+    ## # RETURNS
+    ## 0 if found, 1 if not found
+    ## # OUTPUT
+    ## full path of found file
     local cmd="$1"
     local dirs="$(eval echo \$$2 | tr ':' ' ')"
     local dd
@@ -41,19 +45,15 @@ find_in_path() {
     return 1
 }
 
-#****f* ashlib/include
-# FUNCTION
-#   includes the module
-# SYNOPSIS
-#   include module [other modules ...]
-# INPUTS
-#   module - module to include
-# RETURN VALUE
-#   0 on success, otherwise the number of failed modules.
-#****
-
 include() {
-  [ -z "$ASHLIB_PATH" ] && export ASHLIB_PATH="$ASHLIB" 
+  ## Include an `ashlib` module.
+  ## # USAGE
+  ##   include module [other modules ...]
+  ## # ARGS
+  ## * module -- module to include
+  ## # RETURNS
+  ## 0 on success, otherwise the number of failed modules.
+  [ -z "$ASHLIB_PATH" ] && export ASHLIB_PATH="$ASHLIB"
 
   local ext fn i c=0
   for i in "$@"
