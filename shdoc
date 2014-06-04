@@ -1,0 +1,126 @@
+#!/usr/bin/perl -w
+
+use strict;
+use warnings;
+
+my $sect = undef;
+my $doctxt = {};
+my $docfile = {};
+my $ids = {};
+my $files = {};
+my $title = 'API docs';
+my $idc = 0;
+
+while (scalar(@ARGV)) {
+    if ($ARGV[0] eq '-t') {
+	shift;
+	$title = shift;
+	$title || die "No title specified\n";
+    } else {
+	last;
+    }
+}
+
+foreach my $f (@ARGV) {
+
+    open(my $fh,'<',$f) || die "$f: $!\n";
+
+    $sect = $f;
+    $files->{$f} = [];
+    $doctxt->{$sect} = '';
+    $ids->{$sect} = ++$idc;
+
+    while (<$fh>) {
+	if ((/^\s*function\s+([_a-zA-Z][_0-9a-zA-Z]*)\s*\(\s*\)\s*\{/) ||
+	    (/^\s*([_a-zA-Z][_0-9a-zA-Z]*)\s*\(\s*\)\s*\{/) ) {
+	    $sect = $1;
+	    $doctxt->{$sect} = '';
+	    $docfile->{$sect} = $f;
+	    $ids->{$sect} = ++$idc;
+	    push @{$files->{$f}},$sect;
+	} elsif (/^\s*##\s?/) {
+	    s/^\s*## ?//;
+	    $doctxt->{$sect} .= $_;
+	}
+    }
+    close($fh);
+}
+######################################################################
+sub anchor {
+    my ($item) = @_;
+    if ($ids->{$item}) {
+	return '<a name="'.sprintf('id%02x',$ids->{$item}).'"></a>';
+    }
+    return '';
+}
+sub hlink {
+    my ($txt,$item) = @_;
+    $item = $txt unless (defined($item));
+    if ($ids->{$item}) {
+	return '['.$txt.'](#'.sprintf('id%02x',$ids->{$item}).')';
+    }
+    return $txt;
+}
+sub postproc {
+    my ($txt,$hp) = @_;
+
+    my $out = '';
+    foreach my $ln (split(/\n/,$txt)) {
+	if ($ln =~ /^#/) {
+	    $out .= "\n$hp";
+	    $ln .= "\n";
+	}
+	$out .= $ln;
+	$out .= "\n";
+    }
+    $out .= "\n";
+    return $out;
+}
+
+######################################################################
+#
+# Generate MD output
+#
+print "# $title\n\n";
+
+print "## Modules\n\n";
+
+foreach my $f (sort keys %{$files}) {
+    print "* ",hlink($f),"\n";
+}
+print "\n";
+
+print "## Functions\n\n";
+
+foreach my $f (sort keys %{$doctxt}) {
+    next if (defined $files->{$f});
+    print "* ",hlink($f)," (",hlink($docfile->{$f}),")\n";
+}
+print "\n";
+
+print "* * *\n\n";
+
+foreach my $f (sort keys %{$files}) {
+    print "## ",anchor($f),"$f\n\n";
+    if ($doctxt->{$f}) {
+	print postproc($doctxt->{$f},'##'),"\n\n";
+    }
+    foreach my $s (sort @{$files->{$f}}) {
+	print "### ",anchor($f),$s,"\n\n";
+	if ($doctxt->{$s}) {
+	    print postproc($doctxt->{$s},'###'),"\n\n";
+	}
+    }
+}
+print "\n";
+
+
+
+# ToC
+# sorted by module
+# Index, sorted by funct
+
+# module
+#     info
+# <function> : file
+#    info
