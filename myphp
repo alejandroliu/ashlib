@@ -1,0 +1,58 @@
+#!/bin/sh
+#
+#++
+# = MYPHP(1)
+# :Revision: 1.0
+#
+# == NAME
+#
+# myphp - PHP wrapper
+#
+# == SYNOPSIS
+#
+# *myphp* _php-script_ _[script args]_
+#
+# == DESCRIPTION
+#
+# This is my PHP wrapper script.  It does the following:
+#
+# * Make sure that it uses either an alternative `.ini` script or
+#   disables `short_open_tag` and keeps `basedir` undefined.
+# * loads some initialisation code with some syntactic sugar.
+# * executes user script
+#
+# == SEE ALSO
+#
+# php(1)
+#
+#--
+PHP_OPTS=()
+
+script_dir=$(cd $(dirname $0) && pwd)
+script_name=$(basename $0)
+if [ -f $script_dir/$script_name.ini ] ; then
+  PHP_OPTS+=( -c $script_dir/$script_name.ini )
+else
+  PHP_OPTS+=( -n -dshort_open_tag=Off )
+fi
+
+php_code=""
+
+if [ -f $script_dir/$script_name.php ] ; then
+  # Loads my PHP extensions...
+  php_code="$php_code
+	require_once('$script_dir/$script_name.php');"
+fi
+if [ -f "$1" ] ; then
+  php_code="$php_code
+	require_once('$1');"
+  shift
+fi
+
+if [ -n "$php_code" ] ; then
+  PHP_OPTS+=(  -r "$php_code" )
+fi
+
+exec php \
+    "${PHP_OPTS[@]}" \
+    -- "$@"

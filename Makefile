@@ -44,6 +44,18 @@ $(DESTDIR)$(LIBDIR)/solv_ln.sh: solv_ln.sh
 $(DESTDIR)$(LIBDIR)/ver.sh: ver.sh
 	install -m644 $< $@
 
+$(DESTDIR)$(BINDIR)/ashcc: ashcc
+	install -m755 $< $@
+
+$(DESTDIR)$(LIBDIR)/ashcc.php: ashcc.php
+	install -m644 $< $@
+
+$(DESTDIR)$(LIBDIR)/myphp: myphp
+	install -m755 $< $@
+
+$(DESTDIR)$(LIBDIR)/myphp.php: myphp.php
+	install -m644 $< $@
+
 subdirs:
 	mkdir -p \
 	    $(DESTDIR)$(BINDIR) \
@@ -60,7 +72,11 @@ install: subdirs \
 	$(DESTDIR)$(LIBDIR)/fixlnk.sh \
 	$(DESTDIR)$(LIBDIR)/refs.sh \
 	$(DESTDIR)$(LIBDIR)/solv_ln.sh \
-	$(DESTDIR)$(LIBDIR)/ver.sh
+	$(DESTDIR)$(LIBDIR)/ver.sh \
+	$(DESTDIR)$(BINDIR)/ashcc \
+	$(DESTDIR)$(LIBDIR)/ashcc.php \
+	$(DESTDIR)$(LIBDIR)/myphp \
+	$(DESTDIR)$(LIBDIR)/myphp.php
 
 clean:
 	find . -name '*~' | xargs -r rm -v
