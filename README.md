@@ -64,5 +64,4 @@ A `makefile` is provide.  Installation can be done with:
 
 ## API
 
-See [API](API-doc.md).  Click [here](blob/master/API-doc.md) if the
-previous link doesn't work.
+See [API](API-doc.md).
