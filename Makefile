@@ -17,6 +17,9 @@ $(DESTDIR)$(BINDIR)/ashlib: ashlib
 $(DESTDIR)$(BINDIR)/shlog: shlog
 	install -m755 $< $@
 
+$(DESTDIR)$(BINDIR)/shdoc: shdoc
+	install -m755 $< $@
+
 $(DESTDIR)$(LIBDIR)/ashlib.sh: ashlib.sh
 	install -m644 $< $@
 
@@ -49,6 +52,7 @@ subdirs:
 install: subdirs \
 	$(DESTDIR)$(BINDIR)/ashlib \
 	$(DESTDIR)$(BINDIR)/shlog \
+	$(DESTDIR)$(BINDIR)/shdoc \
 	$(DESTDIR)$(LIBDIR)/ashlib.sh \
 	$(DESTDIR)$(LIBDIR)/core.sh \
 	$(DESTDIR)$(LIBDIR)/fixattr.sh \

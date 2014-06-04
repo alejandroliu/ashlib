@@ -53,6 +53,8 @@ After that you can:
   Set-up ashlib
 * shlog  
   Run a shell while loging stdin.
+* shdoc  
+  Simple perl (?!?) script to create reference documentation.
 
 ## Installation
 
@@ -60,3 +62,7 @@ A `makefile` is provide.  Installation can be done with:
 
     make install DESTDIR=/opt
 
+## API
+
+See [API](API-doc.md).  Click [here](blob/master/API-doc.md) if the
+previous link doesn't work.
