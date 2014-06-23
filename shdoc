@@ -52,6 +52,8 @@ while (scalar(@ARGV)) {
     }
 }
 
+die "No files specified\n" if (scalar(@ARGV) == 0);
+
 foreach my $f (@ARGV) {
 
     open(my $fh,'<',$f) || die "$f: $!\n";
