@@ -56,27 +56,36 @@ $(DESTDIR)$(LIBDIR)/myphp: myphp
 $(DESTDIR)$(LIBDIR)/myphp.php: myphp.php
 	install -m644 $< $@
 
+$(DESTDIR)$(LIBDIR)/rotate.sh: rotate.sh
+	install -m644 $< $@
+
+$(DESTDIR)$(LIBDIR)/network.sh: network.sh
+	install -m644 $< $@
+
+
 subdirs:
 	mkdir -p \
 	    $(DESTDIR)$(BINDIR) \
 	    $(DESTDIR)/$(LIBDIR)
 
 install: subdirs \
+	$(DESTDIR)$(BINDIR)/ashcc \
 	$(DESTDIR)$(BINDIR)/ashlib \
 	$(DESTDIR)$(BINDIR)/shlog \
 	$(DESTDIR)$(BINDIR)/shdoc \
+	$(DESTDIR)$(LIBDIR)/ashcc.php \
 	$(DESTDIR)$(LIBDIR)/ashlib.sh \
 	$(DESTDIR)$(LIBDIR)/core.sh \
 	$(DESTDIR)$(LIBDIR)/fixattr.sh \
 	$(DESTDIR)$(LIBDIR)/fixfile.sh \
 	$(DESTDIR)$(LIBDIR)/fixlnk.sh \
-	$(DESTDIR)$(LIBDIR)/refs.sh \
-	$(DESTDIR)$(LIBDIR)/solv_ln.sh \
-	$(DESTDIR)$(LIBDIR)/ver.sh \
-	$(DESTDIR)$(BINDIR)/ashcc \
-	$(DESTDIR)$(LIBDIR)/ashcc.php \
 	$(DESTDIR)$(LIBDIR)/myphp \
 	$(DESTDIR)$(LIBDIR)/myphp.php
+	$(DESTDIR)$(LIBDIR)/network.sh \
+	$(DESTDIR)$(LIBDIR)/refs.sh \
+	$(DESTDIR)$(LIBDIR)/rotate.sh \
+	$(DESTDIR)$(LIBDIR)/solv_ln.sh \
+	$(DESTDIR)$(LIBDIR)/ver.sh \
 
 clean:
 	find . -name '*~' | xargs -r rm -v
