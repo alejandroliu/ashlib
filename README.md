@@ -40,8 +40,12 @@ After that you can:
   Update the contents of a file.
 * fixlnk.sh  
   Update symbolic links.
+* network.sh  
+  Network related function
 * refs.sh  
   A reference library
+* rotate.sh  
+  File rotation script
 * solv_ln.sh  
   Resolve symbolic links
 * ver.sh  

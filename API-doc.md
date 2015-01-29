@@ -7,23 +7,30 @@
 * [fixattr.sh](#id07)
 * [fixfile.sh](#id09)
 * [fixlnk.sh](#id0b)
-* [refs.sh](#id0d)
-* [solv_ln.sh](#id11)
-* [ver.sh](#id13)
+* [kvped.sh](#id0d)
+* [network.sh](#id10)
+* [refs.sh](#id12)
+* [rotate.sh](#id16)
+* [solv_ln.sh](#id18)
+* [ver.sh](#id1a)
 
 ## Functions
 
-* [assign](#id0f) ([refs.sh](#id0d))
+* [assign](#id14) ([refs.sh](#id12))
 * [fatal](#id06) ([core.sh](#id04))
 * [find_in_path](#id02) ([ashlib.sh](#id01))
+* [find_key](#id0e) ([kvped.sh](#id0d))
+* [find_nic](#id11) ([network.sh](#id10))
 * [fixattr](#id08) ([fixattr.sh](#id07))
 * [fixfile](#id0a) ([fixfile.sh](#id09))
 * [fixlnk](#id0c) ([fixlnk.sh](#id0b))
-* [get](#id10) ([refs.sh](#id0d))
-* [gitver](#id14) ([ver.sh](#id13))
+* [get](#id15) ([refs.sh](#id12))
+* [gitver](#id1b) ([ver.sh](#id1a))
 * [include](#id03) ([ashlib.sh](#id01))
-* [mksym](#id0e) ([refs.sh](#id0d))
-* [solv_ln](#id12) ([solv_ln.sh](#id11))
+* [kvped](#id0f) ([kvped.sh](#id0d))
+* [mksym](#id13) ([refs.sh](#id12))
+* [rotate](#id17) ([rotate.sh](#id16))
+* [solv_ln](#id19) ([solv_ln.sh](#id18))
 * [warn](#id05) ([core.sh](#id04))
 
 * * *
@@ -191,7 +198,48 @@ Otherwise no action is taken.
 
 
 
-## <a name="id0d"></a>refs.sh
+## <a name="id0d"></a>kvped.sh
+
+### <a name="id0e"></a>find_key
+
+### <a name="id0f"></a>kvped
+
+Found!
+
+
+
+## <a name="id10"></a>network.sh
+
+Network functions
+
+Some utilities used to manage network and related tasks
+
+
+
+### <a name="id11"></a>find_nic
+
+find a nic from a MAC address
+
+#### Usage
+
+   find_nic mac
+
+#### ARGS
+
+* mac -- mac address to find (xx:xx:xx:xx:xx)
+
+#### OUTPUT
+
+The device name that belongs to that mac address
+
+#### DESC
+
+Given a mac address, returns the network interface to use in
+ifconfig or other commands.
+
+
+
+## <a name="id12"></a>refs.sh
 
 Symbolic/Reference functions
 
@@ -199,7 +247,7 @@ Let's you add a level of indirection to shell scripts
 
 
 
-### <a name="id0f"></a>assign
+### <a name="id14"></a>assign
 
 Assigns a value to the named variable
 
@@ -220,7 +268,7 @@ to the actual variable.
 
 
 
-### <a name="id10"></a>get
+### <a name="id15"></a>get
 
 Returns the value of varname.
 
@@ -244,7 +292,7 @@ the actual variable to be referenced.
 
 
 
-### <a name="id0e"></a>mksym
+### <a name="id13"></a>mksym
 
 create a symbol from a given string
 
@@ -270,9 +318,32 @@ nameing.
 
 
 
-## <a name="id11"></a>solv_ln.sh
+## <a name="id16"></a>rotate.sh
 
-### <a name="id12"></a>solv_ln
+### <a name="id17"></a>rotate
+
+Function to rotate log files
+
+#### USAGE
+
+   rotate [options] file [files ...]
+
+#### OPTIONS
+
+* --count=n -- number of archive files (defaults to 10)
+
+#### DESC
+
+Rotates a logfile file by subsequently creating up to
+count archive files of it. Archive files are
+named "file.number[compress-suffix]" where number is the version
+number, 0 being the newest and "count-1" the oldest.
+
+
+
+## <a name="id18"></a>solv_ln.sh
+
+### <a name="id19"></a>solv_ln
 
 Resolves symbolic links so they are relative paths
 
@@ -300,9 +371,9 @@ paths.
 
 
 
-## <a name="id13"></a>ver.sh
+## <a name="id1a"></a>ver.sh
 
-### <a name="id14"></a>gitver
+### <a name="id1b"></a>gitver
 
 Determine the current version information
 
