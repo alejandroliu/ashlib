@@ -30,6 +30,43 @@
 #
 # This script examines shell source and outputs a markdown document
 # documenting defined functions.
+#
+# == DOCUMENTATION FORMAT
+#
+# *shdoc* will scan shell scripts and extracts comments that
+# start with +##+ followed by an optional space.  For example:
+#
+# ----
+# ## this is a **shdoc** comment.
+# ----
+#
+# By default, comments are added to a _global_ scope.  On the other hand,
+# comments following a function declaration (for example: +function this+)
+# are added to a _function_ scope.
+#
+# === Sample comments
+#
+# ----
+# # the next line has a "*" so that the line is ignored by shdoc
+# #*####################################################################
+# ## This section is used to document the module
+#
+# sample_function() {
+#   ## short description of sample_function
+#   ## # USAGE
+#   ##   sample_function arg1 arg2 arg3
+#   ## # ARGS
+#   ## * arg1 -- description of arg1
+#   ## * arg2 -- description of arg2
+#   ## * arg3 -- description of arg3
+#   ## # RETURNS
+#   ## exit code
+#   ## # OUTPUT
+#   ## what kind of output to eexpect
+# ----
+#
+# This is an example, any function section may be omitted.
+# The prose is markdown so any markdown markup may be used.
 #--
 use strict;
 use warnings;
