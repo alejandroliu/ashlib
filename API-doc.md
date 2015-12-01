@@ -8,29 +8,31 @@
 * [fixfile.sh](#id09)
 * [fixlnk.sh](#id0b)
 * [kvped.sh](#id0d)
-* [network.sh](#id10)
-* [refs.sh](#id12)
-* [rotate.sh](#id16)
-* [solv_ln.sh](#id18)
-* [ver.sh](#id1a)
+* [mkid.sh](#id10)
+* [network.sh](#id12)
+* [refs.sh](#id14)
+* [rotate.sh](#id18)
+* [solv_ln.sh](#id1a)
+* [ver.sh](#id1c)
 
 ## Functions
 
-* [assign](#id14) ([refs.sh](#id12))
+* [assign](#id16) ([refs.sh](#id14))
 * [fatal](#id06) ([core.sh](#id04))
 * [find_in_path](#id02) ([ashlib.sh](#id01))
 * [find_key](#id0e) ([kvped.sh](#id0d))
-* [find_nic](#id11) ([network.sh](#id10))
+* [find_nic](#id13) ([network.sh](#id12))
 * [fixattr](#id08) ([fixattr.sh](#id07))
 * [fixfile](#id0a) ([fixfile.sh](#id09))
 * [fixlnk](#id0c) ([fixlnk.sh](#id0b))
-* [get](#id15) ([refs.sh](#id12))
-* [gitver](#id1b) ([ver.sh](#id1a))
+* [get](#id17) ([refs.sh](#id14))
+* [gitver](#id1d) ([ver.sh](#id1c))
 * [include](#id03) ([ashlib.sh](#id01))
 * [kvped](#id0f) ([kvped.sh](#id0d))
-* [mksym](#id13) ([refs.sh](#id12))
-* [rotate](#id17) ([rotate.sh](#id16))
-* [solv_ln](#id19) ([solv_ln.sh](#id18))
+* [mkid](#id11) ([mkid.sh](#id10))
+* [mksym](#id15) ([refs.sh](#id14))
+* [rotate](#id19) ([rotate.sh](#id18))
+* [solv_ln](#id1b) ([solv_ln.sh](#id1a))
 * [warn](#id05) ([core.sh](#id04))
 
 * * *
@@ -208,7 +210,37 @@ Found!
 
 
 
-## <a name="id10"></a>network.sh
+## <a name="id10"></a>mkid.sh
+
+
+Arbitrary id strings
+
+
+
+### <a name="id11"></a>mkid
+
+create arbitrary id strings
+
+#### USAGE
+
+mkid txt
+
+#### ARGS
+
+* txt -- text to convert into id
+
+#### OUTPUT
+
+sanitized text
+
+#### DESC
+
+Given an arbitrary input text, this creates a suitable id for
+it.
+
+
+
+## <a name="id12"></a>network.sh
 
 Network functions
 
@@ -216,7 +248,7 @@ Some utilities used to manage network and related tasks
 
 
 
-### <a name="id11"></a>find_nic
+### <a name="id13"></a>find_nic
 
 find a nic from a MAC address
 
@@ -239,7 +271,7 @@ ifconfig or other commands.
 
 
 
-## <a name="id12"></a>refs.sh
+## <a name="id14"></a>refs.sh
 
 Symbolic/Reference functions
 
@@ -247,7 +279,7 @@ Let's you add a level of indirection to shell scripts
 
 
 
-### <a name="id14"></a>assign
+### <a name="id16"></a>assign
 
 Assigns a value to the named variable
 
@@ -268,7 +300,7 @@ to the actual variable.
 
 
 
-### <a name="id15"></a>get
+### <a name="id17"></a>get
 
 Returns the value of varname.
 
@@ -292,7 +324,7 @@ the actual variable to be referenced.
 
 
 
-### <a name="id13"></a>mksym
+### <a name="id15"></a>mksym
 
 create a symbol from a given string
 
@@ -318,9 +350,9 @@ nameing.
 
 
 
-## <a name="id16"></a>rotate.sh
+## <a name="id18"></a>rotate.sh
 
-### <a name="id17"></a>rotate
+### <a name="id19"></a>rotate
 
 Function to rotate log files
 
@@ -341,9 +373,9 @@ number, 0 being the newest and "count-1" the oldest.
 
 
 
-## <a name="id18"></a>solv_ln.sh
+## <a name="id1a"></a>solv_ln.sh
 
-### <a name="id19"></a>solv_ln
+### <a name="id1b"></a>solv_ln
 
 Resolves symbolic links so they are relative paths
 
@@ -371,9 +403,9 @@ paths.
 
 
 
-## <a name="id1a"></a>ver.sh
+## <a name="id1c"></a>ver.sh
 
-### <a name="id1b"></a>gitver
+### <a name="id1d"></a>gitver
 
 Determine the current version information
 
