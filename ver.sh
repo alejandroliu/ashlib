@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 gitver() {
-## Determine the current version information
+## Determine the current version information from git
 ## # USAGE
 ##     gitver _git-directory_
 ## # ARGS
