@@ -10,14 +10,16 @@
 * [kvped.sh](#id0d)
 * [mkid.sh](#id10)
 * [network.sh](#id12)
-* [refs.sh](#id14)
-* [rotate.sh](#id18)
-* [solv_ln.sh](#id1a)
-* [ver.sh](#id1c)
+* [on_exit.sh](#id14)
+* [refs.sh](#id17)
+* [rotate.sh](#id1b)
+* [solv_ln.sh](#id1d)
+* [ver.sh](#id1f)
 
 ## Functions
 
-* [assign](#id16) ([refs.sh](#id14))
+* [assign](#id19) ([refs.sh](#id17))
+* [exit_handler](#id15) ([on_exit.sh](#id14))
 * [fatal](#id06) ([core.sh](#id04))
 * [find_in_path](#id02) ([ashlib.sh](#id01))
 * [find_key](#id0e) ([kvped.sh](#id0d))
@@ -25,14 +27,15 @@
 * [fixattr](#id08) ([fixattr.sh](#id07))
 * [fixfile](#id0a) ([fixfile.sh](#id09))
 * [fixlnk](#id0c) ([fixlnk.sh](#id0b))
-* [get](#id17) ([refs.sh](#id14))
-* [gitver](#id1d) ([ver.sh](#id1c))
+* [get](#id1a) ([refs.sh](#id17))
+* [gitver](#id20) ([ver.sh](#id1f))
 * [include](#id03) ([ashlib.sh](#id01))
 * [kvped](#id0f) ([kvped.sh](#id0d))
 * [mkid](#id11) ([mkid.sh](#id10))
-* [mksym](#id15) ([refs.sh](#id14))
-* [rotate](#id19) ([rotate.sh](#id18))
-* [solv_ln](#id1b) ([solv_ln.sh](#id1a))
+* [mksym](#id18) ([refs.sh](#id17))
+* [on_exit](#id16) ([on_exit.sh](#id14))
+* [rotate](#id1c) ([rotate.sh](#id1b))
+* [solv_ln](#id1e) ([solv_ln.sh](#id1d))
 * [warn](#id05) ([core.sh](#id04))
 
 * * *
@@ -271,7 +274,48 @@ ifconfig or other commands.
 
 
 
-## <a name="id14"></a>refs.sh
+## <a name="id14"></a>on_exit.sh
+
+Used to manage multiple exit handlers
+
+
+
+### <a name="id15"></a>exit_handler
+
+Actual exit function
+
+#### USAGE
+
+  trap exit_handler EXIT
+
+#### DESC
+
+Actual function that gets hooked into the standard EXIT trap
+and calls all the registered exit handlers.
+
+
+
+### <a name="id16"></a>on_exit
+
+Register a command to be called on exit
+
+#### USAGE
+
+  on_exit exit_command
+
+#### DESC
+
+Adds a shell command to be executed on exit.
+Instead of hooking `trap` _cmd_ `exit`, **on_exit** is cumulative,
+so multiple calls to **on_exit** will not replace the exit handler
+but add to it.
+
+Only single commands are supported.  For more complex **on_exit**
+sequences, declare a function and call that instead.
+
+
+
+## <a name="id17"></a>refs.sh
 
 Symbolic/Reference functions
 
@@ -279,7 +323,7 @@ Let's you add a level of indirection to shell scripts
 
 
 
-### <a name="id16"></a>assign
+### <a name="id19"></a>assign
 
 Assigns a value to the named variable
 
@@ -300,7 +344,7 @@ to the actual variable.
 
 
 
-### <a name="id17"></a>get
+### <a name="id1a"></a>get
 
 Returns the value of varname.
 
@@ -324,7 +368,7 @@ the actual variable to be referenced.
 
 
 
-### <a name="id15"></a>mksym
+### <a name="id18"></a>mksym
 
 create a symbol from a given string
 
@@ -350,9 +394,9 @@ nameing.
 
 
 
-## <a name="id18"></a>rotate.sh
+## <a name="id1b"></a>rotate.sh
 
-### <a name="id19"></a>rotate
+### <a name="id1c"></a>rotate
 
 Function to rotate log files
 
@@ -373,9 +417,9 @@ number, 0 being the newest and "count-1" the oldest.
 
 
 
-## <a name="id1a"></a>solv_ln.sh
+## <a name="id1d"></a>solv_ln.sh
 
-### <a name="id1b"></a>solv_ln
+### <a name="id1e"></a>solv_ln
 
 Resolves symbolic links so they are relative paths
 
@@ -403,11 +447,11 @@ paths.
 
 
 
-## <a name="id1c"></a>ver.sh
+## <a name="id1f"></a>ver.sh
 
-### <a name="id1d"></a>gitver
+### <a name="id20"></a>gitver
 
-Determine the current version information
+Determine the current version information from git
 
 #### USAGE
 
