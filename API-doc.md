@@ -8,34 +8,38 @@
 * [fixfile.sh](#id09)
 * [fixlnk.sh](#id0b)
 * [kvped.sh](#id0d)
-* [mkid.sh](#id10)
-* [network.sh](#id12)
-* [on_exit.sh](#id14)
-* [refs.sh](#id17)
-* [rotate.sh](#id1b)
-* [solv_ln.sh](#id1d)
-* [ver.sh](#id1f)
+* [mkid.sh](#id14)
+* [network.sh](#id16)
+* [on_exit.sh](#id18)
+* [refs.sh](#id1b)
+* [rotate.sh](#id1f)
+* [solv_ln.sh](#id21)
+* [ver.sh](#id23)
 
 ## Functions
 
-* [assign](#id19) ([refs.sh](#id17))
-* [exit_handler](#id15) ([on_exit.sh](#id14))
+* [_kvp_find_sect](#id10) ([kvped.sh](#id0d))
+* [_kvp_in_sect](#id11) ([kvped.sh](#id0d))
+* [_kvpadd](#id12) ([kvped.sh](#id0d))
+* [_kvpappend](#id0f) ([kvped.sh](#id0d))
+* [_kvpparsekvp](#id0e) ([kvped.sh](#id0d))
+* [assign](#id1d) ([refs.sh](#id1b))
+* [exit_handler](#id19) ([on_exit.sh](#id18))
 * [fatal](#id06) ([core.sh](#id04))
 * [find_in_path](#id02) ([ashlib.sh](#id01))
-* [find_key](#id0e) ([kvped.sh](#id0d))
-* [find_nic](#id13) ([network.sh](#id12))
+* [find_nic](#id17) ([network.sh](#id16))
 * [fixattr](#id08) ([fixattr.sh](#id07))
 * [fixfile](#id0a) ([fixfile.sh](#id09))
 * [fixlnk](#id0c) ([fixlnk.sh](#id0b))
-* [get](#id1a) ([refs.sh](#id17))
-* [gitver](#id20) ([ver.sh](#id1f))
+* [get](#id1e) ([refs.sh](#id1b))
+* [gitver](#id24) ([ver.sh](#id23))
 * [include](#id03) ([ashlib.sh](#id01))
-* [kvped](#id0f) ([kvped.sh](#id0d))
-* [mkid](#id11) ([mkid.sh](#id10))
-* [mksym](#id18) ([refs.sh](#id17))
-* [on_exit](#id16) ([on_exit.sh](#id14))
-* [rotate](#id1c) ([rotate.sh](#id1b))
-* [solv_ln](#id1e) ([solv_ln.sh](#id1d))
+* [kvped](#id13) ([kvped.sh](#id0d))
+* [mkid](#id15) ([mkid.sh](#id14))
+* [mksym](#id1c) ([refs.sh](#id1b))
+* [on_exit](#id1a) ([on_exit.sh](#id18))
+* [rotate](#id20) ([rotate.sh](#id1f))
+* [solv_ln](#id22) ([solv_ln.sh](#id21))
 * [warn](#id05) ([core.sh](#id04))
 
 * * *
@@ -205,22 +209,55 @@ Otherwise no action is taken.
 
 ## <a name="id0d"></a>kvped.sh
 
-### <a name="id0e"></a>find_key
+### <a name="id10"></a>_kvp_find_sect
 
-### <a name="id0f"></a>kvped
+### <a name="id11"></a>_kvp_in_sect
 
-Found!
+### <a name="id12"></a>_kvpadd
+
+### <a name="id0f"></a>_kvpappend
+
+### <a name="id0e"></a>_kvpparsekvp
+
+### <a name="id13"></a>kvped
+
+Function to modify INI files in-place.
+
+#### USAGE
+
+  kvped [options] file [modifiers]
+
+#### OPTIONS
+
+* --nobackup -- disable creation of backups
+* --backupdir=dir -- if specified, backups are saved to the central dir.
+* --backupext=ext -- Backups are created by adding ext.  Defaults to "~".
+* file -- file to modify
+
+#### DESC
+
+Files are modified in-place only if the contents change.  This means
+time stamps are kept accordingly.
+
+*kvped* will read the given `file` and will apply the respective
+modifiers.  The following modifiers are recognized:
+
+* key=value :: Sets the `key` to `value` in the global (default)
+  section.
+* section.key=value :: sets the `key` in `section` to `value`.
+* -key :: If a key begins with `-` it will be deleted.
+* -section.key :: The `key` from `section` will be deleted.
 
 
 
-## <a name="id10"></a>mkid.sh
+## <a name="id14"></a>mkid.sh
 
 
 Arbitrary id strings
 
 
 
-### <a name="id11"></a>mkid
+### <a name="id15"></a>mkid
 
 create arbitrary id strings
 
@@ -243,7 +280,7 @@ it.
 
 
 
-## <a name="id12"></a>network.sh
+## <a name="id16"></a>network.sh
 
 Network functions
 
@@ -251,7 +288,7 @@ Some utilities used to manage network and related tasks
 
 
 
-### <a name="id13"></a>find_nic
+### <a name="id17"></a>find_nic
 
 find a nic from a MAC address
 
@@ -274,13 +311,13 @@ ifconfig or other commands.
 
 
 
-## <a name="id14"></a>on_exit.sh
+## <a name="id18"></a>on_exit.sh
 
 Used to manage multiple exit handlers
 
 
 
-### <a name="id15"></a>exit_handler
+### <a name="id19"></a>exit_handler
 
 Actual exit function
 
@@ -295,7 +332,7 @@ and calls all the registered exit handlers.
 
 
 
-### <a name="id16"></a>on_exit
+### <a name="id1a"></a>on_exit
 
 Register a command to be called on exit
 
@@ -315,7 +352,7 @@ sequences, declare a function and call that instead.
 
 
 
-## <a name="id17"></a>refs.sh
+## <a name="id1b"></a>refs.sh
 
 Symbolic/Reference functions
 
@@ -323,7 +360,7 @@ Let's you add a level of indirection to shell scripts
 
 
 
-### <a name="id19"></a>assign
+### <a name="id1d"></a>assign
 
 Assigns a value to the named variable
 
@@ -344,7 +381,7 @@ to the actual variable.
 
 
 
-### <a name="id1a"></a>get
+### <a name="id1e"></a>get
 
 Returns the value of varname.
 
@@ -368,7 +405,7 @@ the actual variable to be referenced.
 
 
 
-### <a name="id18"></a>mksym
+### <a name="id1c"></a>mksym
 
 create a symbol from a given string
 
@@ -394,9 +431,9 @@ nameing.
 
 
 
-## <a name="id1b"></a>rotate.sh
+## <a name="id1f"></a>rotate.sh
 
-### <a name="id1c"></a>rotate
+### <a name="id20"></a>rotate
 
 Function to rotate log files
 
@@ -417,9 +454,9 @@ number, 0 being the newest and "count-1" the oldest.
 
 
 
-## <a name="id1d"></a>solv_ln.sh
+## <a name="id21"></a>solv_ln.sh
 
-### <a name="id1e"></a>solv_ln
+### <a name="id22"></a>solv_ln
 
 Resolves symbolic links so they are relative paths
 
@@ -447,9 +484,9 @@ paths.
 
 
 
-## <a name="id1f"></a>ver.sh
+## <a name="id23"></a>ver.sh
 
-### <a name="id20"></a>gitver
+### <a name="id24"></a>gitver
 
 Determine the current version information from git
 
