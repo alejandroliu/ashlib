@@ -59,7 +59,7 @@ After that you can:
   Run a shell while loging stdin.
 * shdoc  
   Simple perl (?!?) script to create reference documentation.
-* ashcc & myphp  
+* ashcc, ashrun & myphp  
   A preprocessor that makes use of `php` (through `myphp`) to generate
   single file shell scripts.
 
