@@ -32,3 +32,14 @@ fatal() {
   exit 1
 }
 
+quit() {
+  ## Exit with status
+  ## # USAGE
+  ##    quit exit_code message
+  ## # DESC
+  ## Show the fatal error on stderr and terminates the script with
+  ## exit_code.
+  local code="$1" ; shift
+  echo "$@" 1>&2
+  exit $code
+}

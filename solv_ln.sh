@@ -1,5 +1,7 @@
 #!/bin/sh
 #
+# TODO: Fix set -euf -o pipefail compatibility
+
 solv_ln() {
   ## Resolves symbolic links so they are relative paths
   ## # USAGE

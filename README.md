@@ -40,8 +40,12 @@ After that you can:
   Update the contents of a file.
 * fixlnk.sh  
   Update symbolic links.
+* kvped.sh
+* mkid.sh
+* mnt.sh
 * network.sh  
   Network related function
+* on_exit
 * refs.sh  
   A reference library
 * rotate.sh  
@@ -65,10 +69,17 @@ After that you can:
 
 ## Installation
 
-A `makefile` is provide.  Installation can be done with:
+A `makefile` is provided.  Installation can be done with:
 
     make install DESTDIR=/opt
 
 ## API
 
 See [API](API-doc.md).
+
+## NOTES
+
+* TODO: Fix `set -euf -o pipefail` compatibility.  (Grep for `TODO:`)
+* TODO: revamp Makefile
+* TODO: Update docs
+

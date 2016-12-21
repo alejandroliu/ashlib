@@ -34,6 +34,7 @@
 # Input logs are rotated.
 #
 #--
+# TODO: Fix set -euf -o pipefail compatibility
 export PATH=$PATH:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 
 logfile="$HOME/shlog"
