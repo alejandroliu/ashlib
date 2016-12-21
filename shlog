@@ -34,14 +34,14 @@
 # Input logs are rotated.
 #
 #--
-# TODO: Fix set -euf -o pipefail compatibility
-export PATH=$PATH:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+set -euf -o pipefail
 
+export PATH=$PATH:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 logfile="$HOME/shlog"
 nvers=35
 cmd="/bin/sh"
 
-while [ $# -gt 0 ] ; then
+while [ $# -gt 0 ] ; do
   case "$1" in
     --logfile=*)
       logfile="${1#--logfile=}"
@@ -53,6 +53,7 @@ while [ $# -gt 0 ] ; then
       nvers=${1#--nvers=}
       nvers=$(echo "$nvers" | tr -dc 0-9)
       [ -z "$nvers" ] && nvers=0
+      ;;
     -n)
       nvers="$2"
       nvers=$(echo "$nvers" | tr -dc 0-9)
@@ -78,18 +79,18 @@ while [ $# -gt 0 ] ; then
   shift
 done
 
-[ -z "$logfile" ] && exec $cmd "$@"
+[ -z "$logfile" ] && exec "$cmd" "$@"
 
 if [ $nvers -gt 0 ] ; then
   count=0
-  for x in $(ls -1t $logfile.* 2>/dev/null)
+  for x in $(find "$(dirname "$logfile")" -name  "$(basename "$logfile")"'.*' 2>/dev/null | sort -r)
   do
     count=$(expr $count + 1)
     [ $count -gt $nvers ] && rm -f "$x"
   done
 fi
 
-rm -f $logfile
-tee $logfile | sh "$@" 2>&1
+rm -f "$logfile"
+tee $logfile | "$cmd" "$@" 2>&1
 
-[ $nvers -gt 0 ] && ln -f $logfile $logfile.$(date +%F) # Y-m-d
+[ $nvers -gt 0 ] && ln -f "$logfile" "$logfile".$(date +%F) # Y-m-d
