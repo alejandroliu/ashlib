@@ -40,8 +40,12 @@ After that you can:
   Update the contents of a file.
 * fixlnk.sh  
   Update symbolic links.
+* kvped.sh
+* mkid.sh
+* mnt.sh
 * network.sh  
   Network related function
+* on_exit
 * refs.sh  
   A reference library
 * rotate.sh  
@@ -59,16 +63,23 @@ After that you can:
   Run a shell while loging stdin.
 * shdoc  
   Simple perl (?!?) script to create reference documentation.
-* ashcc & myphp  
+* ashcc, ashrun & myphp  
   A preprocessor that makes use of `php` (through `myphp`) to generate
   single file shell scripts.
 
 ## Installation
 
-A `makefile` is provide.  Installation can be done with:
+A `makefile` is provided.  Installation can be done with:
 
     make install DESTDIR=/opt
 
 ## API
 
 See [API](API-doc.md).
+
+## NOTES
+
+* TODO: Fix `set -euf -o pipefail` compatibility.  (Grep for `TODO:`)
+* TODO: revamp Makefile
+* TODO: Update docs
+

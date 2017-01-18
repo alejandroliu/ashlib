@@ -5,6 +5,7 @@
 ## Some utilities used to manage network and related tasks
 ##
 #
+# TODO: Fix set -euf -o pipefail compatibility
 
 find_nic() {
 ## find a nic from a MAC address

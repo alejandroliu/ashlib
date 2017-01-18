@@ -53,7 +53,7 @@ include() {
   ## * module -- module to include
   ## # RETURNS
   ## 0 on success, otherwise the number of failed modules.
-  [ -z "$ASHLIB_PATH" ] && export ASHLIB_PATH="$ASHLIB"
+  [ -z "${ASHLIB_PATH:-}" ] && export ASHLIB_PATH="${ASHLIB:-}"
 
   local ext fn i c=0
   for i in "$@"

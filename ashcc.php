@@ -120,8 +120,8 @@ if (function_exists('error_get_last')) {
 set_error_handler('ASHCC_error_trap');
 
 ob_start();
-
-foreach ($argv as $f) {
+while (count($argv)) {
+  $f = array_shift($argv);
   if (substr($f,0,2) == '-I') {
     set_include_path(get_include_path() . PATH_SEPARATOR . substr($f,2));
   }  else if (substr($f,0,2) == '-o') {
@@ -134,7 +134,9 @@ foreach ($argv as $f) {
     eval('define($l,'.$r.');');
     unset($l,$r);
   } else {
+    $script = $f;
     require($f);
+    break;
   }
 }
 
@@ -151,4 +153,3 @@ if ($ASHCC_OutPutFile == '') {
   file_put_contents($ASHCC_OutPutFile,$s,LOCK_EX);
   chmod($ASHCC_OutPutFile,0777 & ~umask());
 }
-?>

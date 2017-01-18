@@ -16,6 +16,8 @@
 ## Used to manage multiple exit handlers
 #
 trap exit_handler EXIT
+exit_cmd=""
+
 exit_handler() {
   ## Actual exit function
   ## # USAGE
@@ -23,7 +25,7 @@ exit_handler() {
   ## # DESC
   ## Actual function that gets hooked into the standard EXIT trap
   ## and calls all the registered exit handlers.
-  eval $exit_cmd
+  eval "$exit_cmd"
 }
 on_exit() {
   ## Register a command to be called on exit

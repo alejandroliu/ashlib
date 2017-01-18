@@ -79,6 +79,7 @@ install: subdirs \
 	$(DESTDIR)$(LIBDIR)/fixattr.sh \
 	$(DESTDIR)$(LIBDIR)/fixfile.sh \
 	$(DESTDIR)$(LIBDIR)/fixlnk.sh \
+	$(DESTDIR)$(LIBDIR)/mnt.sh \
 	$(DESTDIR)$(LIBDIR)/myphp \
 	$(DESTDIR)$(LIBDIR)/myphp.php
 	$(DESTDIR)$(LIBDIR)/network.sh \

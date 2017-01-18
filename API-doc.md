@@ -4,42 +4,44 @@
 
 * [ashlib.sh](#id01)
 * [core.sh](#id04)
-* [fixattr.sh](#id07)
-* [fixfile.sh](#id09)
-* [fixlnk.sh](#id0b)
-* [kvped.sh](#id0d)
-* [mkid.sh](#id14)
-* [network.sh](#id16)
-* [on_exit.sh](#id18)
-* [refs.sh](#id1b)
-* [rotate.sh](#id1f)
-* [solv_ln.sh](#id21)
-* [ver.sh](#id23)
+* [fixattr.sh](#id08)
+* [fixfile.sh](#id0a)
+* [fixlnk.sh](#id0c)
+* [kvped.sh](#id0e)
+* [mkid.sh](#id15)
+* [mnt.sh](#id17)
+* [network.sh](#id18)
+* [on_exit.sh](#id1a)
+* [refs.sh](#id1d)
+* [rotate.sh](#id21)
+* [solv_ln.sh](#id23)
+* [ver.sh](#id25)
 
 ## Functions
 
-* [_kvp_find_sect](#id10) ([kvped.sh](#id0d))
-* [_kvp_in_sect](#id11) ([kvped.sh](#id0d))
-* [_kvpadd](#id12) ([kvped.sh](#id0d))
-* [_kvpappend](#id0f) ([kvped.sh](#id0d))
-* [_kvpparsekvp](#id0e) ([kvped.sh](#id0d))
-* [assign](#id1d) ([refs.sh](#id1b))
-* [exit_handler](#id19) ([on_exit.sh](#id18))
+* [_kvp_find_sect](#id11) ([kvped.sh](#id0e))
+* [_kvp_in_sect](#id12) ([kvped.sh](#id0e))
+* [_kvpadd](#id13) ([kvped.sh](#id0e))
+* [_kvpappend](#id10) ([kvped.sh](#id0e))
+* [_kvpparsekvp](#id0f) ([kvped.sh](#id0e))
+* [assign](#id1f) ([refs.sh](#id1d))
+* [exit_handler](#id1b) ([on_exit.sh](#id1a))
 * [fatal](#id06) ([core.sh](#id04))
 * [find_in_path](#id02) ([ashlib.sh](#id01))
-* [find_nic](#id17) ([network.sh](#id16))
-* [fixattr](#id08) ([fixattr.sh](#id07))
-* [fixfile](#id0a) ([fixfile.sh](#id09))
-* [fixlnk](#id0c) ([fixlnk.sh](#id0b))
-* [get](#id1e) ([refs.sh](#id1b))
-* [gitver](#id24) ([ver.sh](#id23))
+* [find_nic](#id19) ([network.sh](#id18))
+* [fixattr](#id09) ([fixattr.sh](#id08))
+* [fixfile](#id0b) ([fixfile.sh](#id0a))
+* [fixlnk](#id0d) ([fixlnk.sh](#id0c))
+* [get](#id20) ([refs.sh](#id1d))
+* [gitver](#id26) ([ver.sh](#id25))
 * [include](#id03) ([ashlib.sh](#id01))
-* [kvped](#id13) ([kvped.sh](#id0d))
-* [mkid](#id15) ([mkid.sh](#id14))
-* [mksym](#id1c) ([refs.sh](#id1b))
-* [on_exit](#id1a) ([on_exit.sh](#id18))
-* [rotate](#id20) ([rotate.sh](#id1f))
-* [solv_ln](#id22) ([solv_ln.sh](#id21))
+* [kvped](#id14) ([kvped.sh](#id0e))
+* [mkid](#id16) ([mkid.sh](#id15))
+* [mksym](#id1e) ([refs.sh](#id1d))
+* [on_exit](#id1c) ([on_exit.sh](#id1a))
+* [quit](#id07) ([core.sh](#id04))
+* [rotate](#id22) ([rotate.sh](#id21))
+* [solv_ln](#id24) ([solv_ln.sh](#id23))
 * [warn](#id05) ([core.sh](#id04))
 
 * * *
@@ -115,6 +117,21 @@ Show the fatal error on stderr and terminates the script.
 
 
 
+### <a name="id07"></a>quit
+
+Exit with status
+
+#### USAGE
+
+   quit exit_code message
+
+#### DESC
+
+Show the fatal error on stderr and terminates the script with
+exit_code.
+
+
+
 ### <a name="id05"></a>warn
 
   Show a warning on stderr
@@ -125,9 +142,9 @@ Show the fatal error on stderr and terminates the script.
 
 
 
-## <a name="id07"></a>fixattr.sh
+## <a name="id08"></a>fixattr.sh
 
-### <a name="id08"></a>fixattr
+### <a name="id09"></a>fixattr
 
 Updates file attributes
 
@@ -149,9 +166,9 @@ owner user and owner groups.
 
 
 
-## <a name="id09"></a>fixfile.sh
+## <a name="id0a"></a>fixfile.sh
 
-### <a name="id0a"></a>fixfile
+### <a name="id0b"></a>fixfile
 
 Function to modify files in-place.
 
@@ -185,9 +202,9 @@ Again, file is only written to if its conents change.
 
 
 
-## <a name="id0b"></a>fixlnk.sh
+## <a name="id0c"></a>fixlnk.sh
 
-### <a name="id0c"></a>fixlnk
+### <a name="id0d"></a>fixlnk
 
 Function to update symlinks
 
@@ -207,19 +224,19 @@ Otherwise no action is taken.
 
 
 
-## <a name="id0d"></a>kvped.sh
+## <a name="id0e"></a>kvped.sh
 
-### <a name="id10"></a>_kvp_find_sect
+### <a name="id11"></a>_kvp_find_sect
 
-### <a name="id11"></a>_kvp_in_sect
+### <a name="id12"></a>_kvp_in_sect
 
-### <a name="id12"></a>_kvpadd
+### <a name="id13"></a>_kvpadd
 
-### <a name="id0f"></a>_kvpappend
+### <a name="id10"></a>_kvpappend
 
-### <a name="id0e"></a>_kvpparsekvp
+### <a name="id0f"></a>_kvpparsekvp
 
-### <a name="id13"></a>kvped
+### <a name="id14"></a>kvped
 
 Function to modify INI files in-place.
 
@@ -250,14 +267,14 @@ modifiers.  The following modifiers are recognized:
 
 
 
-## <a name="id14"></a>mkid.sh
+## <a name="id15"></a>mkid.sh
 
 
 Arbitrary id strings
 
 
 
-### <a name="id15"></a>mkid
+### <a name="id16"></a>mkid
 
 create arbitrary id strings
 
@@ -280,7 +297,9 @@ it.
 
 
 
-## <a name="id16"></a>network.sh
+## <a name="id17"></a>mnt.sh
+
+## <a name="id18"></a>network.sh
 
 Network functions
 
@@ -288,7 +307,7 @@ Some utilities used to manage network and related tasks
 
 
 
-### <a name="id17"></a>find_nic
+### <a name="id19"></a>find_nic
 
 find a nic from a MAC address
 
@@ -311,13 +330,13 @@ ifconfig or other commands.
 
 
 
-## <a name="id18"></a>on_exit.sh
+## <a name="id1a"></a>on_exit.sh
 
 Used to manage multiple exit handlers
 
 
 
-### <a name="id19"></a>exit_handler
+### <a name="id1b"></a>exit_handler
 
 Actual exit function
 
@@ -332,7 +351,7 @@ and calls all the registered exit handlers.
 
 
 
-### <a name="id1a"></a>on_exit
+### <a name="id1c"></a>on_exit
 
 Register a command to be called on exit
 
@@ -352,7 +371,7 @@ sequences, declare a function and call that instead.
 
 
 
-## <a name="id1b"></a>refs.sh
+## <a name="id1d"></a>refs.sh
 
 Symbolic/Reference functions
 
@@ -360,7 +379,7 @@ Let's you add a level of indirection to shell scripts
 
 
 
-### <a name="id1d"></a>assign
+### <a name="id1f"></a>assign
 
 Assigns a value to the named variable
 
@@ -381,7 +400,7 @@ to the actual variable.
 
 
 
-### <a name="id1e"></a>get
+### <a name="id20"></a>get
 
 Returns the value of varname.
 
@@ -405,7 +424,7 @@ the actual variable to be referenced.
 
 
 
-### <a name="id1c"></a>mksym
+### <a name="id1e"></a>mksym
 
 create a symbol from a given string
 
@@ -431,9 +450,9 @@ nameing.
 
 
 
-## <a name="id1f"></a>rotate.sh
+## <a name="id21"></a>rotate.sh
 
-### <a name="id20"></a>rotate
+### <a name="id22"></a>rotate
 
 Function to rotate log files
 
@@ -454,9 +473,9 @@ number, 0 being the newest and "count-1" the oldest.
 
 
 
-## <a name="id21"></a>solv_ln.sh
+## <a name="id23"></a>solv_ln.sh
 
-### <a name="id22"></a>solv_ln
+### <a name="id24"></a>solv_ln
 
 Resolves symbolic links so they are relative paths
 
@@ -484,9 +503,9 @@ paths.
 
 
 
-## <a name="id23"></a>ver.sh
+## <a name="id25"></a>ver.sh
 
-### <a name="id24"></a>gitver
+### <a name="id26"></a>gitver
 
 Determine the current version information from git
 

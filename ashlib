@@ -33,8 +33,9 @@
 # easily.
 #
 #--
+set -euf -o pipefail
 
-if [ -z "$ASHLIB" ] ; then
+if [ -z "${ASHLIB:-}" ] ; then
   # Figure the location of the ashlib library
   script_dir=$(cd $(dirname $0) ; pwd)
   ASHLIB=""

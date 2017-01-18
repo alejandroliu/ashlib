@@ -1,0 +1,30 @@
+#!/bin/sh
+set -euf -o pipefail
+script_dir="$(cd $(dirname $0) && pwd)"
+eval $($script_dir/ashlib)
+
+MYPHP="$script_dir/myphp"
+type "$MYPHP" >/dev/null 2>&1 || fatal "No MyPHP found"
+ASHCC="$MYPHP $script_dir/ashcc.php"
+
+if [ $# -eq 0 ] ; then
+  echo "Usage: $0 script [opts]" 2>&1
+  exit 1
+fi
+
+SCRIPT="$1"
+shift || exit
+[ ! -e $SCRIPT ] && fata "$SCRIPT not found"
+
+if [ -w $(dirname $SCRIPT) ] ; then
+  TSCRIPT=$(mktemp $(dirname $SCRIPT)/.XXXXXXXXXXX)
+  [ -z $TSCRIPT ] && exit 1
+else
+  TSCRIPT=$(mktemp)
+fi
+trap "rm -f $TSCRIPT" EXIT
+chmod 700 $TSCRIPT
+
+$ASHCC -Dashrun=1 $SCRIPT >> $TSCRIPT || exit $?
+( exec -a $SCRIPT $TSCRIPT "$@" )
+exit $?
