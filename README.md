@@ -41,6 +41,7 @@ After that you can:
 * fixlnk.sh  
   Update symbolic links.
 * kvped.sh
+  Edit "ini" file contents
 * mkid.sh
 * mnt.sh
 * network.sh  
@@ -79,7 +80,6 @@ See [API](API-doc.md).
 
 ## NOTES
 
-* TODO: Fix `set -euf -o pipefail` compatibility.  (Grep for `TODO:`)
 * TODO: revamp Makefile
 * TODO: Update docs
 
