@@ -1,6 +1,5 @@
 #!/bin/sh
 #
-# TODO: Fix set -euf -o pipefail compatibility
 
 solv_ln() {
   ## Resolves symbolic links so they are relative paths
@@ -20,15 +19,15 @@ solv_ln() {
   ## paths.
   local target="$1" linknam="$2"
 
-  [ -d "$linknam" ] && linknam=$linknam/$(basename $target)
+  [ -d "$linknam" ] && linknam="$linknam/$(basename "$target")"
 
-  local linkdir=$(cd $(dirname $linknam) && pwd) || return 1
-  local targdir=$(cd $(dirname $target) && pwd) || return 1
+  local linkdir=$(cd $(dirname "$linknam") && pwd) || return 1
+  local targdir=$(cd $(dirname "$target") && pwd) || return 1
 
   linkdir=$(echo "$linkdir" | sed 's!^/!!' | tr ' /' '/ ')
   targdir=$(echo "$targdir" | sed 's!^/!!' | tr ' /' '/ ')
 
-  local a b
+  local a='' b=''
 
   while true
   do

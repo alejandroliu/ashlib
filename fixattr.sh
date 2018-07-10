@@ -13,7 +13,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# TODO: Fix set -euf -o pipefail compatibility
+
 fixattr() {
   ## Updates file attributes
   ## # USAGE
@@ -26,17 +26,20 @@ fixattr() {
   ## # DESC
   ## This function ensures that the given `file` has the defined file modes,
   ## owner user and owner groups.
+  
+  local mode="" user="" group=""
+  
   while [ $# -gt 0 ]
   do
     case "$1" in
 	--mode=*)
-	    MODE=${1#--mode=}
+	    mode=${1#--mode=}
 	    ;;
 	--user=*)
-	    USER=${1#--user=}
+	    user=${1#--user=}
 	    ;;
 	--group=*)
-	    GROUP=${1#--group=}
+	    group=${1#--group=}
 	    ;;
 	-*)
 	    echo "Invalid option: $1" 1>&2
@@ -56,39 +59,40 @@ fixattr() {
     echo "Ignoring additional options: $*" 1>&2
   fi
 
-  local FILE="$1"
+  local file="$1"
 
-  if [ -z "$GROUP" ] ; then
+  if [ -z "$group" ] ; then
     # Check if USER == {user}:{group}
     eval $(
-	echo $USER | (
+	echo $user | (
 	    IFS=:
-	    read A B
-	    [ -z "$B" ]
-	    echo USER=$A \; GROUP=$B
+	    a="" ; b=""
+	    read a b
+	    [ -z "$b" ] && return
+	    echo "user='$a' ; group='$b'"
 	)
     )
   fi
 
-  local MSG=
+  local msg=
 
-  if [ -n "$USER" ] ; then
-    if [ $(find $FILE -maxdepth 0 -user $USER | wc -l) -eq 0 ] ; then
-      chown $USER $FILE    
-      MSG=$(echo $MSG chown)
+  if [ -n "$user" ] ; then
+    if [ $(find "$file" -maxdepth 0 -user "$user" | wc -l) -eq 0 ] ; then
+      chown "$user" "$file"
+      msg=$(echo $msg chown)
     fi
   fi
-  if [ -n "$GROUP" ] ; then
-    if [ $(find $FILE -maxdepth 0 -group $GROUP | wc -l) -eq 0 ] ; then
-      chgrp $GROUP $FILE    
-      MSG=$(echo $MSG chgrp)
+  if [ -n "$group" ] ; then
+    if [ $(find "$file" -maxdepth 0 -group "$group" | wc -l) -eq 0 ] ; then
+      chgrp "$group" "$file"
+      msg=$(echo $msg chgrp)
     fi
   fi
-  if [ -n "$MODE" ] ; then
-    if [ $(find $FILE -maxdepth 0 -perm $MODE | wc -l) -eq 0 ] ; then
-      chmod $MODE $FILE
-      MSG=$(echo $MSG chmod)
+  if [ -n "$mode" ] ; then
+    if [ $(find "$file" -maxdepth 0 -perm "$mode" | wc -l) -eq 0 ] ; then
+      chmod "$mode" "$file"
+      msg=$(echo $msg chmod)
     fi
   fi
-  [ -n "$MSG" ] && echo "$FILE $MSG" 1>&2
+  [ -n "$msg" ] && echo "$file $msg" 1>&2
 }

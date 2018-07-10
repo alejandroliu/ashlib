@@ -1,6 +1,5 @@
 #!/bin/sh
 #
-# TODO: Fix set -euf -o pipefail compatibility
 
 gitver() {
 ## Determine the current version information from git
@@ -43,3 +42,4 @@ gitver() {
   echo 'Unknown'
   return 1
 }
+
