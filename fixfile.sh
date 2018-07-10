@@ -13,8 +13,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# TODO: Fix set -euf -o pipefail compatibility
-
 fixfile() {
   ## Function to modify files in-place.
   ## # USAGE
@@ -39,7 +37,7 @@ fixfile() {
   ## that will be executed with <stdin> is the current contents of the
   ## file and <stdout> as the new contents of the file.
   ## Again, file is only written to if its conents change.
-  local MODE= USER= GROUP= BACKUPDIR= BACKUPEXT="~" FILTER=no
+  local MODE= USER= GROUP= BACKUPDIR= BACKUPEXT="~" FILTER=false
 
   while [ $# -gt 0 ]
   do
@@ -57,7 +55,7 @@ fixfile() {
 	    BACKUPEXT=
 	    ;;
 	--filter)
-	    FILTER=yes
+	    FILTER=true
 	    ;;
 	--mode=*)
 	    MODE=${1#--mode=}
@@ -93,9 +91,10 @@ fixfile() {
     eval $(
 	echo $USER | (
 	    IFS=:
-	    read A B
-	    [ -z "$B" ]
-	    echo USER=$A \; GROUP=$B
+	    a="" ; b=""
+	    read a b
+	    [ -z "$b" ] && return
+	    echo "USER='$a' ; GROUP='$b'"
 	)
     )
   fi
@@ -107,7 +106,7 @@ fixfile() {
     OTXT=$(sed 's/^/:/' $FILE)
   fi
 
-  if [ $FILTER = yes ] ; then
+  if $FILTER ; then
     # Stdin is not contents but actually is a filter script
     local INCODE="$(cat)"
     if [ -f $FILE ] ; then
@@ -152,4 +151,3 @@ fixfile() {
   fi
   [ -n "$MSG" ] && echo "$FILE $MSG" 1>&2
 }
-

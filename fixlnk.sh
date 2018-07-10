@@ -13,7 +13,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# TODO: Fix set -euf -o pipefail compatibility
+
 fixlnk() {
 ## Function to update symlinks
 ## # USAGE
@@ -30,19 +30,20 @@ fixlnk() {
     return 1
   fi
 
-  local LNKDAT="$1"
-  local LNKLOC="$2"
+  local lnkdat="$1"
+  local lnkloc="$2"
 
-  if [ -L "$LNKLOC" ] ; then
-    CLNKDAT=$(readlink "$LNKLOC")
-    [ x"$CLNKDAT" = x"$LNKDAT" ] && return 0
-    echo "Updating $LNKLOC" 1>&2
-    rm -f "$LNKLOC"
-  elif [ -e "$LNKLOC" ] ; then
-    echo "Fixing $LNKLOC" 1>&2
-    rm -rf "$LNKLOC"
+  if [ -L "$lnkloc" ] ; then
+    clnkdat=$(readlink "$lnkloc")
+    [ x"$clnkdat" = x"$lnkdat" ] && return 0
+    echo "Updating $lnkloc" 1>&2
+    rm -f "$lnkloc"
+  elif [ -e "$lnkloc" ] ; then
+    echo "Fixing $lnkloc" 1>&2
+    rm -rf "$lnkloc"
   else
-    echo "Creating $LNKLOC" 1>&2
+    echo "Creating $lnkloc" 1>&2
   fi
-  ln -s "$LNKDAT" "$LNKLOC"
+  ln -s "$lnkdat" "$lnkloc"
 }
+

@@ -13,7 +13,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# TODO: Fix set -euf -o pipefail compatibility
 
 _kvpparsekvp() {
   if [ x"$1" = x"--local" ] ; then
@@ -37,7 +36,7 @@ _kvpappend() {
   local var="$1" i; shift
   for i in "$@"
   do
-    eval if [ -z \"\$${var}\" ] \; then ${var}=\"\$i\" \; continue \; fi
+    eval 'if [ -z "$'"${var}"'" ] ; then '"${var}"'="$i" ; continue ; fi'
     eval "${var}=\"\$${var}
 \$i\""
   done
@@ -191,4 +190,5 @@ kvped() {
   echo "$ncont" |sed 's/^://' > "$FILE"
   echo "$FILE: updated" 1>&2 
 }
+
 

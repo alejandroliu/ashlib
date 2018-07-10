@@ -5,7 +5,6 @@
 ## Some utilities used to manage network and related tasks
 ##
 #
-# TODO: Fix set -euf -o pipefail compatibility
 
 find_nic() {
 ## find a nic from a MAC address
@@ -20,14 +19,13 @@ find_nic() {
 ## ifconfig or other commands.
 ##
   local l_mac="$1"
-  local dev sysfs=/sys/class/net
-  for dev in $(cd $sysfs && echo *)
+  local dev
+  for dev in $(find "/sys/class/net" -maxdepth 1 -mindepth 1)
   do
-    [ ! -d $sysfs/$dev ] && continue
-    [ ! -e $sysfs/$dev/device ] && continue
-
-    local cmac=$(ip addr show dev $dev | grep link/ether | awk '{print $2}')
+    [ ! -e "$dev/device" ] && continue
+    dev=$(basename "$dev")
+    local cmac=$(sudo ip addr show dev "$dev" | awk '/link\/ether/ {print $2}')
     [ -z "$cmac" ] && continue
-    [ "$cmac" = "$l_mac" ] && echo $dev
+    [ "$cmac" = "$l_mac" ] && echo "$dev"
   done
 }
