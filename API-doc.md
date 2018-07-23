@@ -14,8 +14,9 @@
 * [on_exit.sh](#id1a)
 * [refs.sh](#id1d)
 * [rotate.sh](#id21)
-* [solv_ln.sh](#id23)
-* [ver.sh](#id25)
+* [shesc.sh](#id23)
+* [solv_ln.sh](#id25)
+* [ver.sh](#id27)
 
 ## Functions
 
@@ -33,7 +34,7 @@
 * [fixfile](#id0b) ([fixfile.sh](#id0a))
 * [fixlnk](#id0d) ([fixlnk.sh](#id0c))
 * [get](#id20) ([refs.sh](#id1d))
-* [gitver](#id26) ([ver.sh](#id25))
+* [gitver](#id28) ([ver.sh](#id27))
 * [include](#id03) ([ashlib.sh](#id01))
 * [kvped](#id14) ([kvped.sh](#id0e))
 * [mkid](#id16) ([mkid.sh](#id15))
@@ -41,7 +42,8 @@
 * [on_exit](#id1c) ([on_exit.sh](#id1a))
 * [quit](#id07) ([core.sh](#id04))
 * [rotate](#id22) ([rotate.sh](#id21))
-* [solv_ln](#id24) ([solv_ln.sh](#id23))
+* [shell_escape](#id24) ([shesc.sh](#id23))
+* [solv_ln](#id26) ([solv_ln.sh](#id25))
 * [warn](#id05) ([core.sh](#id04))
 
 * * *
@@ -299,6 +301,22 @@ it.
 
 ## <a name="id17"></a>mnt.sh
 
+Determine if the given directory is a mount point
+
+### USAGE
+
+is_mounted directory
+
+### ARGS
+
+* directory -- directory mount point
+
+### DESC
+
+Determine if the given directory is a mount point
+
+
+
 ## <a name="id18"></a>network.sh
 
 Network functions
@@ -473,9 +491,36 @@ number, 0 being the newest and "count-1" the oldest.
 
 
 
-## <a name="id23"></a>solv_ln.sh
+## <a name="id23"></a>shesc.sh
 
-### <a name="id24"></a>solv_ln
+Shell escape function.  Quotes strings so they can be safefly included
+parsed by eval or in other scripts.
+
+
+
+### <a name="id24"></a>shell_escape
+
+  Escape string for shell parsing
+
+#### USAGE
+
+  shell_escape "string"
+
+#### DESC
+
+shell_escape will examine the passed string in the 
+arguments and add any appropriate meta characters so that
+it can be safely parsed by a UNIX shell.
+
+It does so by enclosing the string with single quotes (if
+it the string contains "unsafe" characters.).  If the string
+only contains safe characters, nothing is actually done.
+
+
+
+## <a name="id25"></a>solv_ln.sh
+
+### <a name="id26"></a>solv_ln
 
 Resolves symbolic links so they are relative paths
 
@@ -503,9 +548,9 @@ paths.
 
 
 
-## <a name="id25"></a>ver.sh
+## <a name="id27"></a>ver.sh
 
-### <a name="id26"></a>gitver
+### <a name="id28"></a>gitver
 
 Determine the current version information from git
 

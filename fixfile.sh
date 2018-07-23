@@ -18,6 +18,7 @@ fixfile() {
   ## # USAGE
   ##   fixfile [options] file
   ## # OPTIONS
+  ## * -D -- if specified, containing directory is created.
   ## * --mode=mode -- mode to set permissions to.
   ## * --user=user -- set ownership to user
   ## * --group=group -- set group to group
@@ -37,7 +38,7 @@ fixfile() {
   ## that will be executed with <stdin> is the current contents of the
   ## file and <stdout> as the new contents of the file.
   ## Again, file is only written to if its conents change.
-  local MODE= USER= GROUP= BACKUPDIR= BACKUPEXT="~" FILTER=false
+  local MODE= USER= GROUP= BACKUPDIR= BACKUPEXT="~" FILTER=false MKDIR=false
 
   while [ $# -gt 0 ]
   do
@@ -65,6 +66,9 @@ fixfile() {
 	    ;;
 	--group=*)
 	    GROUP=${1#--group=}
+	    ;;
+	-D)
+	    MKDIR=true
 	    ;;
 	-*)
 	    echo "Invalid option: $1" 1>&2
@@ -104,6 +108,12 @@ fixfile() {
   local OTXT=""
   if [ -f $FILE ] ; then
     OTXT=$(sed 's/^/:/' $FILE)
+  elif $MKDIR ; then
+    if [ ! -d "$(dirname "$FILE")" ] ; then
+      mkdir -p "$(dirname "$FILE")"
+      [ -n "$USER" ] && chown "$USER" "$(dirname "$FILE")"
+      [ -n "$GROUP" ] && chgrp "$GROUP" "$(dirname "$FILE")"
+    fi
   fi
 
   if $FILTER ; then

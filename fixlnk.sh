@@ -17,13 +17,24 @@
 fixlnk() {
 ## Function to update symlinks
 ## # USAGE
-##    fixlnk target lnk
+##    fixlnk [-D] target lnk
 ## # ARGS
+## * -D -- if specified, link directory is created.
 ## * target -- where the link should be pointing to
 ## * lnk -- where the link is to be created
 ## # DESC
 ## Note that this will first check if the symlink needs to be corrected.
 ## Otherwise no action is taken.
+  local mkdir=false
+
+  while [ $# -gt 0 ]
+  do
+    case "$1" in
+    -D) mkdir=true ;;
+    *) break
+    esac
+    shift
+  done
 
   if [ $# -ne 2 ] ; then
     echo "Usage: fixlnk {target} {lnk}" 1>&2
@@ -43,6 +54,9 @@ fixlnk() {
     rm -rf "$lnkloc"
   else
     echo "Creating $lnkloc" 1>&2
+  fi
+  if $mkdir ; then
+    [ ! -d "$(dirname "$lnkloc")" ] && mkdir -p "$(dirname "$lnkloc")"
   fi
   ln -s "$lnkdat" "$lnkloc"
 }
