@@ -7,7 +7,6 @@ MANDIR	= /man
 LIBDIR  = /lib/ashlib
 
 #PWD=$(shell pwd)
-#ASHCC=$(PWD)/../php-lib/myphp $(PWD)/../../lib/ashcc.php
 
 all:
 
@@ -19,6 +18,10 @@ $(DESTDIR)$(BINDIR)/shlog: shlog
 
 $(DESTDIR)$(BINDIR)/shdoc: shdoc
 	install -m755 $< $@
+
+$(DESTDIR)$(BINDIR)/pp: pp
+	install -m755 $< $@
+
 
 $(DESTDIR)$(LIBDIR)/ashlib.sh: ashlib.sh
 	install -m644 $< $@
@@ -44,22 +47,13 @@ $(DESTDIR)$(LIBDIR)/solv_ln.sh: solv_ln.sh
 $(DESTDIR)$(LIBDIR)/ver.sh: ver.sh
 	install -m644 $< $@
 
-$(DESTDIR)$(BINDIR)/ashcc: ashcc
-	install -m755 $< $@
-
-$(DESTDIR)$(LIBDIR)/ashcc.php: ashcc.php
-	install -m644 $< $@
-
-$(DESTDIR)$(LIBDIR)/myphp: myphp
-	install -m755 $< $@
-
-$(DESTDIR)$(LIBDIR)/myphp.php: myphp.php
-	install -m644 $< $@
-
 $(DESTDIR)$(LIBDIR)/rotate.sh: rotate.sh
 	install -m644 $< $@
 
 $(DESTDIR)$(LIBDIR)/network.sh: network.sh
+	install -m644 $< $@
+
+$(DESTDIR)$(LIBDIR)/pp.sh: pp.sh
 	install -m644 $< $@
 
 
@@ -69,20 +63,17 @@ subdirs:
 	    $(DESTDIR)/$(LIBDIR)
 
 install: subdirs \
-	$(DESTDIR)$(BINDIR)/ashcc \
 	$(DESTDIR)$(BINDIR)/ashlib \
 	$(DESTDIR)$(BINDIR)/shlog \
 	$(DESTDIR)$(BINDIR)/shdoc \
-	$(DESTDIR)$(LIBDIR)/ashcc.php \
+	$(DESTDIR)$(BINDIR)/pp \
 	$(DESTDIR)$(LIBDIR)/ashlib.sh \
 	$(DESTDIR)$(LIBDIR)/core.sh \
 	$(DESTDIR)$(LIBDIR)/fixattr.sh \
 	$(DESTDIR)$(LIBDIR)/fixfile.sh \
 	$(DESTDIR)$(LIBDIR)/fixlnk.sh \
-	$(DESTDIR)$(LIBDIR)/mnt.sh \
-	$(DESTDIR)$(LIBDIR)/myphp \
-	$(DESTDIR)$(LIBDIR)/myphp.php
 	$(DESTDIR)$(LIBDIR)/network.sh \
+	$(DESTDIR)$(LIBDIR)/pp.sh \
 	$(DESTDIR)$(LIBDIR)/refs.sh \
 	$(DESTDIR)$(LIBDIR)/rotate.sh \
 	$(DESTDIR)$(LIBDIR)/solv_ln.sh \

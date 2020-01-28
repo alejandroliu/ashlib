@@ -47,6 +47,8 @@ After that you can:
 * network.sh  
   Network related function
 * on_exit
+* pp.sh
+  bash pre-processor
 * refs.sh  
   A reference library
 * rotate.sh  
@@ -64,9 +66,8 @@ After that you can:
   Run a shell while loging stdin.
 * shdoc  
   Simple perl (?!?) script to create reference documentation.
-* ashcc, ashrun & myphp  
-  A preprocessor that makes use of `php` (through `myphp`) to generate
-  single file shell scripts.
+* pp
+  Pre-processor driver
 
 ## Installation
 

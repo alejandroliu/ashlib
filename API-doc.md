@@ -12,11 +12,13 @@
 * [mnt.sh](#id17)
 * [network.sh](#id18)
 * [on_exit.sh](#id1a)
-* [refs.sh](#id1d)
-* [rotate.sh](#id21)
-* [shesc.sh](#id23)
-* [solv_ln.sh](#id25)
-* [ver.sh](#id27)
+* [pp.sh](#id1d)
+* [refs.sh](#id21)
+* [rotate.sh](#id25)
+* [shesc.sh](#id27)
+* [solv_ln.sh](#id29)
+* [urlencode.sh](#id2b)
+* [ver.sh](#id2e)
 
 ## Functions
 
@@ -25,7 +27,7 @@
 * [_kvpadd](#id13) ([kvped.sh](#id0e))
 * [_kvpappend](#id10) ([kvped.sh](#id0e))
 * [_kvpparsekvp](#id0f) ([kvped.sh](#id0e))
-* [assign](#id1f) ([refs.sh](#id1d))
+* [assign](#id23) ([refs.sh](#id21))
 * [exit_handler](#id1b) ([on_exit.sh](#id1a))
 * [fatal](#id06) ([core.sh](#id04))
 * [find_in_path](#id02) ([ashlib.sh](#id01))
@@ -33,17 +35,22 @@
 * [fixattr](#id09) ([fixattr.sh](#id08))
 * [fixfile](#id0b) ([fixfile.sh](#id0a))
 * [fixlnk](#id0d) ([fixlnk.sh](#id0c))
-* [get](#id20) ([refs.sh](#id1d))
-* [gitver](#id28) ([ver.sh](#id27))
+* [get](#id24) ([refs.sh](#id21))
+* [gitver](#id2f) ([ver.sh](#id2e))
 * [include](#id03) ([ashlib.sh](#id01))
 * [kvped](#id14) ([kvped.sh](#id0e))
 * [mkid](#id16) ([mkid.sh](#id15))
-* [mksym](#id1e) ([refs.sh](#id1d))
+* [mksym](#id22) ([refs.sh](#id21))
 * [on_exit](#id1c) ([on_exit.sh](#id1a))
+* [pp](#id1e) ([pp.sh](#id1d))
+* [ppCmd](#id20) ([pp.sh](#id1d))
+* [ppSimple](#id1f) ([pp.sh](#id1d))
 * [quit](#id07) ([core.sh](#id04))
-* [rotate](#id22) ([rotate.sh](#id21))
-* [shell_escape](#id24) ([shesc.sh](#id23))
-* [solv_ln](#id26) ([solv_ln.sh](#id25))
+* [rotate](#id26) ([rotate.sh](#id25))
+* [shell_escape](#id28) ([shesc.sh](#id27))
+* [solv_ln](#id2a) ([solv_ln.sh](#id29))
+* [urldecode](#id2d) ([urlencode.sh](#id2b))
+* [urlencode](#id2c) ([urlencode.sh](#id2b))
 * [warn](#id05) ([core.sh](#id04))
 
 * * *
@@ -180,6 +187,7 @@ Function to modify files in-place.
 
 #### OPTIONS
 
+* -D -- if specified, containing directory is created.
 * --mode=mode -- mode to set permissions to.
 * --user=user -- set ownership to user
 * --group=group -- set group to group
@@ -212,10 +220,11 @@ Function to update symlinks
 
 #### USAGE
 
-   fixlnk target lnk
+   fixlnk [-D] target lnk
 
 #### ARGS
 
+* -D -- if specified, link directory is created.
 * target -- where the link should be pointing to
 * lnk -- where the link is to be created
 
@@ -389,7 +398,64 @@ sequences, declare a function and call that instead.
 
 
 
-## <a name="id1d"></a>refs.sh
+## <a name="id1d"></a>pp.sh
+
+### <a name="id1e"></a>pp
+
+Pre-processor
+USAGE
+	pp < input > output
+DESC
+Read some textual data and output post-processed data.
+
+Uses HERE_DOC syntax for the pre-processing language.
+So for example, variables are expanded directly as `$varname`
+whereas commands can be embedded as `$(command call)`.
+
+As additional extension, lines of the form:
+
+```
+
+#####! command
+
+```
+
+Are used to include arbitrary shell commands.  These however
+are executed in line (instead of a subshell as in `$(command)`.
+This means that commands in `##!` lines can be used to define
+variables, macros or include other files.
+
+
+
+### <a name="id20"></a>ppCmd
+
+Command line `pp` driver
+
+USAGE
+	ppCmd [--output=output] -Iinclude-path -Dcmd file.m.ext ...
+DESC
+Implements a command line interface for the `pp` function
+
+Input files of the form `file.m.ext` are then pre-processed and
+the result is named `file.ext`.
+
+
+
+### <a name="id1f"></a>ppSimple
+
+Pre-processor
+USAGE
+	ppSimple < input > output
+DESC
+Read some textual data and output post-processed data.
+
+Uses HERE_DOC syntax for the pre-processing language.
+So for example, variables are expanded directly as `$varname`
+whereas commands can be embedded as `$(command call)`.
+
+
+
+## <a name="id21"></a>refs.sh
 
 Symbolic/Reference functions
 
@@ -397,7 +463,7 @@ Let's you add a level of indirection to shell scripts
 
 
 
-### <a name="id1f"></a>assign
+### <a name="id23"></a>assign
 
 Assigns a value to the named variable
 
@@ -418,7 +484,7 @@ to the actual variable.
 
 
 
-### <a name="id20"></a>get
+### <a name="id24"></a>get
 
 Returns the value of varname.
 
@@ -442,7 +508,7 @@ the actual variable to be referenced.
 
 
 
-### <a name="id1e"></a>mksym
+### <a name="id22"></a>mksym
 
 create a symbol from a given string
 
@@ -468,9 +534,9 @@ nameing.
 
 
 
-## <a name="id21"></a>rotate.sh
+## <a name="id25"></a>rotate.sh
 
-### <a name="id22"></a>rotate
+### <a name="id26"></a>rotate
 
 Function to rotate log files
 
@@ -491,14 +557,14 @@ number, 0 being the newest and "count-1" the oldest.
 
 
 
-## <a name="id23"></a>shesc.sh
+## <a name="id27"></a>shesc.sh
 
 Shell escape function.  Quotes strings so they can be safefly included
 parsed by eval or in other scripts.
 
 
 
-### <a name="id24"></a>shell_escape
+### <a name="id28"></a>shell_escape
 
   Escape string for shell parsing
 
@@ -518,9 +584,9 @@ only contains safe characters, nothing is actually done.
 
 
 
-## <a name="id25"></a>solv_ln.sh
+## <a name="id29"></a>solv_ln.sh
 
-### <a name="id26"></a>solv_ln
+### <a name="id2a"></a>solv_ln
 
 Resolves symbolic links so they are relative paths
 
@@ -548,9 +614,35 @@ paths.
 
 
 
-## <a name="id27"></a>ver.sh
+## <a name="id2b"></a>urlencode.sh
 
-### <a name="id28"></a>gitver
+Functions for URL encoding/decoding
+
+
+
+### <a name="id2d"></a>urldecode
+
+Decodes URL encoded strings
+
+#### USAGE
+
+  urldecode text
+
+
+
+### <a name="id2c"></a>urlencode
+
+URL encodes to escape special characters
+
+#### USAGE
+
+  urlencode text
+
+
+
+## <a name="id2e"></a>ver.sh
+
+### <a name="id2f"></a>gitver
 
 Determine the current version information from git
 
