@@ -19,7 +19,7 @@ $(DESTDIR)$(BINDIR)/shlog: shlog
 $(DESTDIR)$(BINDIR)/shdoc: shdoc
 	install -m755 $< $@
 
-$(DESTDIR)$(BINDIR)/pp: pp
+$(DESTDIR)$(BINDIR)/spp: spp
 	install -m755 $< $@
 
 
@@ -66,7 +66,7 @@ install: subdirs \
 	$(DESTDIR)$(BINDIR)/ashlib \
 	$(DESTDIR)$(BINDIR)/shlog \
 	$(DESTDIR)$(BINDIR)/shdoc \
-	$(DESTDIR)$(BINDIR)/pp \
+	$(DESTDIR)$(BINDIR)/spp \
 	$(DESTDIR)$(LIBDIR)/ashlib.sh \
 	$(DESTDIR)$(LIBDIR)/core.sh \
 	$(DESTDIR)$(LIBDIR)/fixattr.sh \

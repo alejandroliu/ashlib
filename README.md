@@ -66,8 +66,8 @@ After that you can:
   Run a shell while loging stdin.
 * shdoc  
   Simple perl (?!?) script to create reference documentation.
-* pp
-  Pre-processor driver
+* spp
+  Shell-like Pre-processor driver
 
 ## Installation
 
