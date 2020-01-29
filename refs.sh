@@ -18,7 +18,8 @@ mksym() {
 ##
 ## This function is meant to sanitize text so it is suitable for variable
 ## nameing.
-  tr ' /.a-z-' '___A-Z_'  <<<"$*"| tr -dc '_A-Z0-9'
+  echo "$*" | tr ' /.a-z-' '___A-Z_' | tr -dc '_A-Z0-9'
+  # tr ' /.a-z-' '___A-Z_'  <<<"$*"| tr -dc '_A-Z0-9'
 }
 
 assign() {
@@ -32,7 +33,6 @@ assign() {
 ## This function assigns a value to the named variable.  Unlink straight
 ## assignment with `=`, the variable name can be a variable itself referring
 ## to the actual variable.
-  local var="$1"
   eval "$1=\"\$2\""
 }
 
@@ -48,5 +48,5 @@ get() {
 ## `get` will display the value of the provided varname.  Unlike direct
 ## references with `$`, the varname can be itself a variable containing
 ## the actual variable to be referenced.
-  eval echo \"\$$1\"
+  eval echo \"\$$1\" || :
 }
