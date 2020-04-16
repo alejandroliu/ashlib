@@ -70,14 +70,15 @@
 #--
 use strict;
 use warnings;
+use Digest::MD5 qw(md5_hex);
 
 my $sect = undef;
 my $doctxt = {};
 my $docfile = {};
 my $ids = {};
+my $rid = {};
 my $files = {};
 my $title = 'API docs';
-my $idc = 0;
 
 while (scalar(@ARGV)) {
     if ($ARGV[0] eq '-t') {
@@ -91,6 +92,22 @@ while (scalar(@ARGV)) {
 
 die "No files specified\n" if (scalar(@ARGV) == 0);
 
+
+sub gen_id($) {
+  my ($sect) = @_;
+  my $idc = md5_hex($sect);
+  if (exists $rid->{$idc}) {
+    my $cnt = 0;
+    my $idb;
+    do {
+      $idb = $idc . (++$cnt);
+    } while (exists $rid->{$idb});
+    $idc = $idb;
+  }
+  return $idc;
+}
+
+
 foreach my $f (@ARGV) {
 
     open(my $fh,'<',$f) || die "$f: $!\n";
@@ -98,7 +115,8 @@ foreach my $f (@ARGV) {
     $sect = $f;
     $files->{$f} = [];
     $doctxt->{$sect} = '';
-    $ids->{$sect} = ++$idc;
+
+    $ids->{$sect} = gen_id('mod:' . $sect);
 
     while (<$fh>) {
 	if ((/^\s*function\s+([_a-zA-Z][_0-9a-zA-Z]*)\s*\(\s*\)\s*\{/) ||
@@ -106,7 +124,7 @@ foreach my $f (@ARGV) {
 	    $sect = $1;
 	    $doctxt->{$sect} = '';
 	    $docfile->{$sect} = $f;
-	    $ids->{$sect} = ++$idc;
+	    $ids->{$sect} = gen_id('fun:'.$f.','.$sect);
 	    push @{$files->{$f}},$sect;
 	} elsif (/^\s*##\s?/) {
 	    s/^\s*## ?//;
@@ -119,7 +137,7 @@ foreach my $f (@ARGV) {
 sub anchor {
     my ($item) = @_;
     if ($ids->{$item}) {
-	return '<a name="'.sprintf('id%02x',$ids->{$item}).'"></a>';
+	return '<a name="'.sprintf('id%s',$ids->{$item}).'"></a>';
     }
     return '';
 }
@@ -127,7 +145,7 @@ sub hlink {
     my ($txt,$item) = @_;
     $item = $txt unless (defined($item));
     if ($ids->{$item}) {
-	return '['.$txt.'](#'.sprintf('id%02x',$ids->{$item}).')';
+	return '['.$txt.'](#'.sprintf('id%s',$ids->{$item}).')';
     }
     return $txt;
 }

@@ -28,6 +28,7 @@ fixfile() {
   ## * --filter -- Use filter mode.  The stdin is used as an script that will
   ##     modify stdin (current file) and the stdout is used as the new contents
   ##     of the file.
+  ## * --decode -- input is considered to be gzippped|base64 encoded data
   ## * file -- file to modify
   ## # DESC
   ## Files are modified in-place only if the contents change.  This means
@@ -38,7 +39,7 @@ fixfile() {
   ## that will be executed with <stdin> is the current contents of the
   ## file and <stdout> as the new contents of the file.
   ## Again, file is only written to if its conents change.
-  local MODE= USER= GROUP= BACKUPDIR= BACKUPEXT="~" FILTER=false MKDIR=false
+  local MODE= USER= GROUP= BACKUPDIR= BACKUPEXT="~" FILTER=false MKDIR=false ENCODED=false
 
   while [ $# -gt 0 ]
   do
@@ -57,6 +58,9 @@ fixfile() {
 	    ;;
 	--filter)
 	    FILTER=true
+	    ;;
+	--decode)
+	    ENCODED=true
 	    ;;
 	--mode=*)
 	    MODE=${1#--mode=}
@@ -81,6 +85,11 @@ fixfile() {
     shift
   done
 
+  if $ENCODED && $FILTER ; then
+    echo "Can not specify --filter and --decode!" 1>&2
+    return 2
+  fi
+
   if [ $# -eq 0 ] ; then
     echo "No file specified" 1>&2
     return 1
@@ -103,11 +112,15 @@ fixfile() {
     )
   fi
 
-  local MSG=
+  local MSG= OTXT=""
 
-  local OTXT=""
   if [ -f $FILE ] ; then
-    OTXT=$(sed 's/^/:/' $FILE)
+    if $ENCODED ; then
+      # Handled binary files...
+      OTXT="$(md5sum "$FILE" | awk '{print $1}')"
+    else
+      OTXT=$(sed 's/^/:/' $FILE)
+    fi
   elif $MKDIR ; then
     if [ ! -d "$(dirname "$FILE")" ] ; then
       mkdir -p "$(dirname "$FILE")"
@@ -125,10 +138,14 @@ fixfile() {
       local NTXT=""
     fi
     local NTXT=$(echo "$NTXT" | (eval "$INCODE" )| sed 's/^/:/' )
+  elif $ENCODED ; then
+    local tmpfile=$(mktemp -p "$(dirname "$FILE")")
+    base64 -d | gunzip > $tmpfile
+    local NTXT=$(md5sum $tmpfile | awk '{print $1}')
   else
     local NTXT=$(sed 's/^/:/')
   fi
-  
+
   if [ x"$OTXT" != x"$NTXT" ] ; then
     if [ -f $FILE ] ; then
       if [ -z "$BACKUPDIR" ] ; then
@@ -137,19 +154,24 @@ fixfile() {
 	cp -dp $FILE $BACKUPDIR/$(basename $FILE)
       fi
     fi
-    echo "$NTXT" | sed 's/^://' > $FILE
+    if $ENCODED ; then
+      cat < "$tmpfile" >"$FILE"
+    else
+      echo "$NTXT" | sed 's/^://' > $FILE
+    fi
     MSG=$(echo $MSG updated)
   fi
+  $ENCODED && rm -f "$tmpfile"
 
   if [ -n "$USER" ] ; then
     if [ $(find $FILE -maxdepth 0 -user $USER | wc -l) -eq 0 ] ; then
-      chown $USER $FILE    
+      chown $USER $FILE
       MSG=$(echo $MSG chown)
     fi
   fi
   if [ -n "$GROUP" ] ; then
     if [ $(find $FILE -maxdepth 0 -group $GROUP | wc -l) -eq 0 ] ; then
-      chgrp $GROUP $FILE    
+      chgrp $GROUP $FILE
       MSG=$(echo $MSG chgrp)
     fi
   fi
@@ -160,4 +182,5 @@ fixfile() {
     fi
   fi
   [ -n "$MSG" ] && echo "$FILE $MSG" 1>&2
+  # RETURNS TRUE if file changes, FALSE if not
 }

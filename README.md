@@ -34,6 +34,8 @@ After that you can:
   Automatically included by `ashlib`.  Defines the `include` function.
 * core.sh  
   Basic definitions.
+* find_in_path.sh  
+  Find if a file exists in a PATH variable.
 * fixattr.sh  
   Fix file attributes (ownership and permissions)
 * fixfile.sh  
@@ -42,19 +44,30 @@ After that you can:
   Update symbolic links.
 * kvped.sh
   Edit "ini" file contents
-* mkid.sh
-* mnt.sh
+* mkid.sh  
+  Sanitize strings so that they are used as shell variables
+* mnt.sh  
+  Mounted file system utilities
 * network.sh  
   Network related function
-* on_exit
-* pp.sh
+* on_exit.sh  
+  functions to be executed when a script terminates
+* pp.sh  
   bash pre-processor
 * refs.sh  
   A reference library
 * rotate.sh  
   File rotation script
+* sdep.sh  
+  Implement soft dependancies
+* shesc.sh  
+  Escape variables so that they are properly parsed by a shell interpreter
 * solv_ln.sh  
   Resolve symbolic links
+* spk_enc.sh  
+  Encrypt files using SSH Public keys.
+* urlencode.sh  
+  Escape strings so that they can be used in URLs.
 * ver.sh  
   Determine git version information.
 
@@ -62,6 +75,8 @@ After that you can:
 
 * ashlib  
   Set-up ashlib
+* rs
+  Run snippets.
 * shlog  
   Run a shell while loging stdin.
 * shdoc  

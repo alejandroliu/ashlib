@@ -21,10 +21,10 @@
 ## The `core` module is included automatically.
 #*####################################################################
 
-find_in_path() {
+ifind_in_path() {
     ## Determines if the specified file is in the path variable
     ## # USAGE
-    ##   find_in_path needle haystack_variable
+    ##   ifind_in_path needle haystack_variable
     ## # ARGS
     ## * needle -- item to find in the path variable
     ## * haystack_variable -- name of the variable contining path
@@ -60,7 +60,7 @@ include() {
   do
     for ext in ".sh" ""
     do
-      if fn=$(find_in_path $i$ext ASHLIB_PATH) ; then
+      if fn=$(ifind_in_path $i$ext ASHLIB_PATH) ; then
 	. $fn
 	break
       fi

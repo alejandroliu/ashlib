@@ -16,21 +16,17 @@
 ## Shell escape function.  Quotes strings so they can be safefly included
 ## parsed by eval or in other scripts.
 
+_do_shesc() {
+  case "$*" in
+  *\'*)
+    ;;
+  *)
+    echo "'$*'"
+    return
+    ;;
+  esac
 
-shell_escape() {
-  ##   Escape string for shell parsing
-  ## # USAGE
-  ##   shell_escape "string"
-  ## # DESC
-  ## shell_escape will examine the passed string in the 
-  ## arguments and add any appropriate meta characters so that
-  ## it can be safely parsed by a UNIX shell.
-  ##
-  ## It does so by enclosing the string with single quotes (if
-  ## it the string contains "unsafe" characters.).  If the string
-  ## only contains safe characters, nothing is actually done.
-  ##
-  local in="$1" ; shift
+  local in="$*" ; shift
   local ln=${#in}
   local oo="" q=""
   local i=0; while [ $i -lt $ln ]
@@ -52,5 +48,40 @@ shell_escape() {
     i=$(expr $i + 1)
   done
   echo "$q$oo$q"
+}
+
+
+shell_escape() {
+  ##   Escape string for shell parsing
+  ## # USAGE
+  ##   shell_escape [options] "string"
+  ## # OPTIONS
+  ## * -q : Always include single quotes
+  ## * - : End of options
+  ## # DESC
+  ## shell_escape will examine the passed string in the
+  ## arguments and add any appropriate meta characters so that
+  ## it can be safely parsed by a UNIX shell.
+  ##
+  ## It does so by enclosing the string with single quotes (if
+  ## it the string contains "unsafe" characters.).  If the string
+  ## only contains safe characters, nothing is actually done.
+  ##
+  [ $# -eq 0 ] && return 0 # Trivial case...
+  if [ x"$1" = x"-q" ] ; then
+    # Always include single quotes... makes code simpler...
+    shift
+    _do_shesc "$@"
+    return $?
+  elif [ x"$1" = x"-" ] ; then
+    shift
+  fi
+  if [ -z "$(echo "$*" | tr -d 'a-zA-Z0-9.~_/+-]')" ] ; then
+    # All valid chars, nothing to be done...
+    echo "$*"
+    return 0
+  fi
+  _do_shesc "$@"
+  return $?
 }
 
