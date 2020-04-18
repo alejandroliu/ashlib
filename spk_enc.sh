@@ -58,7 +58,7 @@ spk_decrypt() {
 ##     spk_decrypt [--base64] <private_key>
 ## # ARGS
 ## * --base64 : if specified, data will be base64 encoded.
-## * --passwd=password : password source
+## * --passwd=password : password for private key
 ## * private_key : private key file to use.
 ## # OUTPUT
 ## De-crypted data
@@ -87,10 +87,16 @@ spk_decrypt() {
     done
 
     echo "$keydat" | base64 -d > $w/secret.key.enc
-    openssl rsautl -decrypt -oaep -inkey "$privkey" $passin -in "$w/secret.key.enc" -out "$w/secret.key"
-    openssl aes-256-cbc -d -pass file:$w/secret.key $($encode && echo -a)
+    cp -a "$privkey" "$w/privkey"
+    if [ -n "$passin" ] ; then
+      ssh-keygen -p -N '' -P "$passin" -f "$w/privkey" -m pem >/dev/null
+    else
+      ssh-keygen -p -N '' -f "$w/privkey" -m pem >/dev/null
+    fi
+    openssl rsautl -decrypt -oaep -inkey "$w/privkey" -in "$w/secret.key.enc" -out "$w/secret.key"
+    openssl aes-256-cbc -d -pass file:$w/secret.key $($encoded && echo -a)
   ) || rc=$?
   rm -rf "$w"
   return $rc
-}  
+}
 
