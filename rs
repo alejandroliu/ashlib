@@ -22,24 +22,29 @@ else
     fi
   fi
 
-  if [ ! -d "$mydir/ashlib" ] ; then
+  if [ -L "$mydir/.ashlib" ] ; then
+    # Check if there is a run-time file...
+    ashlib="$mydir/.ashlib"
+  elif [ -d "$mydir/ashlib" ] ; then
+    ashlib="$mydir/ashlib"
+  else
     echo "Missing \"ashlib\"" 1>&2
     exit 1
-  else
-    if [ ! -f "$mydir/ashlib/rs" ] ; then
-      echo "Missing \"ashlib/rs\" script" 1>&2
-      exit 2
-    fi
-    # Make sure this script and the submodule are in sync...
-    if ! cmp "$0" "$mydir/ashlib/rs" >/dev/null 2>&1 ; then
-      echo "Updating $0..." 1>&2
-      rm -f "$0"
-      cp -a "$mydir/ashlib/rs" "$0"
-      exec "$SHELL" "$0" "$@"
-      exit $?
-    fi
   fi
-  ashlib="$mydir/ashlib"
+
+  if [ ! -f "$ashlib/rs" ] ; then
+    echo "Missing \"ashlib/rs\" script" 1>&2
+    exit 2
+  fi
+
+  # Make sure this script and the submodule are in sync...
+  if ! cmp "$0" "$ashlib/rs" >/dev/null 2>&1 ; then
+    echo "Updating $0..." 1>&2
+    rm -f "$0"
+    cp -a "$ashlib/rs" "$0"
+    exec "$SHELL" "$0" "$@"
+    exit $?
+  fi
 fi
 
 . "$ashlib/shesc.sh"
@@ -123,7 +128,7 @@ load_snippets() {
   #
   # Include snippets ... be careful not to include the same file twice
   #
-  include_once snippets.sh "$mydir/snippets.sh"  ${RS_SNIPPETS:-}    
+  include_once snippets.sh "$mydir/snippets.sh"  ${RS_SNIPPETS:-}
 }
 
 setx="${RS_SETX:-false}"
@@ -250,19 +255,19 @@ _bashonly_do_ssh() {
 
   if [ "$pp" = "jl" ] ; then
     # This is just a local snippet without any bells or wistles
-    run_local_fn --prefix="jl_" "$@"      
+    run_local_fn --prefix="jl_" "$@"
     return $?
   fi
 
   exec 3>&1 # Remember stdout...
-  ( 
+  (
     # Create executable payload
     echo "set -euf"
     $setx && echo "set -x"
 
     type spp_autolocal >/dev/null 2>&1 && spp_autolocal
     echo "$vars"
-    
+
     for f in core fixattr fixfile fixlnk kvped shesc solv_ln urlencode on_exit ${RS_ASHMODS:-}
     do
       cat $ashlib/$f.sh
@@ -284,7 +289,7 @@ _bashonly_do_ssh() {
       echo -n "pl_$1" ; shift
       for f in "$@"
       do
-	echo -n " $(shell_escape "$f")" 
+	echo -n " $(shell_escape "$f")"
       done
       echo ''
     fi
