@@ -21,6 +21,51 @@
 ## The `core` module is included automatically.
 #*####################################################################
 
+find_in_path() {
+  ##   Find a file in a path
+  ## # USAGE
+  ##   find_in_path [--path=PATH] file
+  ## # OPTIONS
+  ## * --path=PATH : don't use $PATH but the provided PATH
+  ## # DESC
+  ## Find a file in the provided path or PATH environment
+  ## variable.
+  ## # RETURNS
+  ## 0 if found, 1 if not found
+  ## # OUTPUT
+  ## full path of found file
+  ##
+  local spath="$PATH"
+  while [ $# -gt 0 ]
+  do
+    case "$1" in
+    --path=*)
+      spath="${1#--path=}"
+      ;;
+    *)
+      break
+      ;;
+    esac
+    shift
+  done
+  if [ x"${1:0:1}" = x"/" ] ; then
+    [ -f "$1" ] && echo "$1" && return 0
+    return 1
+  fi
+  local d oIFS="$IFS" ; IFS=":"
+  for d in $spath
+  do
+    if [ -f "$d/$1" ] ; then
+      echo "$d/$1"
+      IFS="$oIFS"
+      return 0
+    fi
+  done
+  IFS="$oIFS"
+  return 1
+}
+
+
 ifind_in_path() {
     ## Determines if the specified file is in the path variable
     ## # USAGE
@@ -48,19 +93,48 @@ ifind_in_path() {
 include() {
   ## Include an `ashlib` module.
   ## # USAGE
-  ##   include module [other modules ...]
+  ##   include [--once] module [other modules ...]
   ## # ARGS
+  ## * --once|-1 : if specified, modules will not be included more than once
   ## * module -- module to include
   ## # RETURNS
   ## 0 on success, otherwise the number of failed modules.
-  [ -z "${ASHLIB_PATH:-}" ] && export ASHLIB_PATH="${ASHLIB:-}"
+  [ -z "${ASHLIB_PATH:-}" ] && export ASHLIB_PATH="${ASHLIB:-.}"
+
+  local once=false
+
+  while [ $# -gt 0 ]
+  do
+    case "$1" in
+    --once|-1)
+      once=true
+      ;;
+    *)
+      break
+      ;;
+    esac
+    shift
+  done
 
   local ext fn i c=0
   for i in "$@"
   do
     for ext in ".sh" ""
     do
-      if fn=$(ifind_in_path $i$ext ASHLIB_PATH) ; then
+      if fn=$(find_in_path --path="$ASHLIB_PATH" $i$ext) ; then
+	if $once ; then
+	  # Make sure this fn has not been included before...
+	  if (echo "${_included_once_file_list:-}" | grep -q '^'"$fn"'$') ; then
+	    # OK, included before...
+	    continue 2
+	  fi
+	  # remember that we found it before...
+	  if [ -z "${_included_once_file_list:-}" ] ; then
+	    _included_once_file_list="$fn"
+	  else
+	    _included_once_file_list="$(echo "$_included_once_file_list"; echo "$fn")"
+	  fi
+	fi
 	. $fn
 	break
       fi
