@@ -70,7 +70,10 @@ cfg() {
   for kv in "$@"
   do
     k="$(echo "$kv" | cut -d= -f1)"
-    v="$(echo "$kv" | cut -d= -f2-)"
+    eval v=\"\${$k:-}\"
+    if [ -z "$v" ] ; then
+      v="$(echo "$kv" | cut -d= -f2-)"
+    fi
     if (echo "$v" | grep -q "'") ; then
       cmd="$k=$(shell_escape "$v");"
     else
@@ -146,13 +149,13 @@ do
   -l|--local)
     run_cmd=( do_local )
     remote_target() {
-      no_remote_target
+      no_remote_target "$@"
     }
     ;;
   --target=*)
     remote_target ${1#--target=}
     remote_target() {
-      no_remote_target
+      no_remote_target "$@"
     }
     ;;
   --*=*)
