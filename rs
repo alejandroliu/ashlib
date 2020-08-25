@@ -47,8 +47,9 @@ else
   fi
 fi
 
+export ASHLIB="$ashlib"
+. "$ashlib/ashlib.sh"
 . "$ashlib/shesc.sh"
-. "$ashlib/find_in_path.sh"
 
 if [ $# -gt 0 ] && [ x"$1" = x"-s" ] ; then
   # Run using script...
