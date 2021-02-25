@@ -2,6 +2,20 @@
 #
 # Run snippets
 #
+# Snippets:
+#
+# ii_XXXX : variable, contains snippet description
+# pl_XXXX : function to be run in the target
+# ll_XXXX : function to be run on local host, output is send as a
+#	    command on target.
+# jl_XXXX : snippet run on local host
+#
+# spp_autolocal : auto start-up function run on local host
+# spp_autoexec : auto start-up function run on target
+# spp_autoend : auto clean-up function run on target
+# spp_autoendlocal : auto clean-up function run on local host
+#
+
 set -euf -o pipefail
 mydir="$(cd "$(dirname "$0")" && pwd)"
 
@@ -48,7 +62,7 @@ else
 fi
 
 . "$ashlib/shesc.sh"
-. "$ashlib/find_in_path.sh"
+. "$ashlib/ashlib.sh"
 
 if [ $# -gt 0 ] && [ x"$1" = x"-s" ] ; then
   # Run using script...
