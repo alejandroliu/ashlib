@@ -3,17 +3,19 @@
 ## Modules
 
 * [ashlib.sh](#idffd921712058fa2f06a1d30244c15a6f)
+* [cfv.sh](#id9019d8761ef8d7214af93c55e2822f54)
 * [core.sh](#id9a3132e6272f32dafc2231703598e6a9)
-* [find_in_path.sh](#ide9e1981fe1fef13b9aff00957c4fdfa8)
 * [fixattr.sh](#id803ba90cea72dbccc78e418701e00871)
 * [fixfile.sh](#id45e162b38f2f1be9db6574209fc7910c)
 * [fixlnk.sh](#iddfbd26f6bcc1362d842e921421c0aa8c)
+* [jobqueue.sh](#id509df82dd312617c416423e9f62124a8)
 * [kvped.sh](#id5fb6ba6c81dc28eedf0df3e2ba155f1c)
 * [mkid.sh](#ide5f098a9c8fc5466e4ef148ca4a19a05)
 * [mnt.sh](#id0ff04fe1eb718fc8dcfa67323e80eb2a)
 * [network.sh](#idd06d403b38e0abfc8c88688e78504674)
 * [on_exit.sh](#id66bddc838a92b164203b09563e403172)
 * [pp.sh](#idb3466428ed7fa15c0c78fb8fea22d1e2)
+* [randpw.sh](#idc9c99aabd02e0f1f60565b21c48f1845)
 * [refs.sh](#id5b306578a1c827d077d30e27023183a3)
 * [rotate.sh](#id32936da437148dd5f08db046297b455e)
 * [sdep.sh](#idb9f2656e147700a022cc3bd69b3fc9d2)
@@ -32,9 +34,10 @@
 * [_kvpappend](#id93b9b2f950cc8ad8cf977203588e2d54) ([kvped.sh](#id5fb6ba6c81dc28eedf0df3e2ba155f1c))
 * [_kvpparsekvp](#idac26bce42d0806ba0ed287f9effc608a) ([kvped.sh](#id5fb6ba6c81dc28eedf0df3e2ba155f1c))
 * [assign](#id849d21e47dd393f960242d66a833bec6) ([refs.sh](#id5b306578a1c827d077d30e27023183a3))
+* [cfv](#id1312191e776d42f9933d3b5ad9dec8d0) ([cfv.sh](#id9019d8761ef8d7214af93c55e2822f54))
 * [exit_handler](#idfc752edfe7beaa671c632be87c402489) ([on_exit.sh](#id66bddc838a92b164203b09563e403172))
 * [fatal](#id4c4fd598994533050c02ae49ba4af566) ([core.sh](#id9a3132e6272f32dafc2231703598e6a9))
-* [find_in_path](#id3a00c6478895b0e4c86cc53e4e638244) ([find_in_path.sh](#ide9e1981fe1fef13b9aff00957c4fdfa8))
+* [find_in_path](#id271fc5b5d259b5634a1fc97aea302ae7) ([ashlib.sh](#idffd921712058fa2f06a1d30244c15a6f))
 * [find_nic](#idf00297571499302861fbd99eebf70205) ([network.sh](#idd06d403b38e0abfc8c88688e78504674))
 * [fixattr](#id92e0095f760c0308693d1c6b8b927d2a) ([fixattr.sh](#id803ba90cea72dbccc78e418701e00871))
 * [fixfile](#id0980f1da72164338b94838b688224623) ([fixfile.sh](#id45e162b38f2f1be9db6574209fc7910c))
@@ -43,6 +46,8 @@
 * [gitver](#id846353a269ae44f882750a35618d42de) ([ver.sh](#id6a9e8d7c4df6435bc841b6c60f679f69))
 * [ifind_in_path](#ida9884ee3a3823a7d0bd06656a54c9ed1) ([ashlib.sh](#idffd921712058fa2f06a1d30244c15a6f))
 * [include](#idd087ba968162ba26d3492ab5df0b653a) ([ashlib.sh](#idffd921712058fa2f06a1d30244c15a6f))
+* [job_queue](#idac06567f4f6638a3f132e9caf0eb92a2) ([jobqueue.sh](#id509df82dd312617c416423e9f62124a8))
+* [job_worker](#ida29d42d961b6ff56e596cc934cc3dc79) ([jobqueue.sh](#id509df82dd312617c416423e9f62124a8))
 * [kvped](#id125f332d4d55a39e7acfe170c87b2201) ([kvped.sh](#id5fb6ba6c81dc28eedf0df3e2ba155f1c))
 * [mkid](#id566ae29c744927e330b3af31a7694bed) ([mkid.sh](#ide5f098a9c8fc5466e4ef148ca4a19a05))
 * [mksym](#id54957d98a3229b58ae98bc7961c6e674) ([refs.sh](#id5b306578a1c827d077d30e27023183a3))
@@ -51,12 +56,18 @@
 * [ppCmd](#idc22b9642c9c8d9c3409ead9ed00f8d2a) ([pp.sh](#idb3466428ed7fa15c0c78fb8fea22d1e2))
 * [ppSimple](#id61682546b7c0260a6590031e44eac992) ([pp.sh](#idb3466428ed7fa15c0c78fb8fea22d1e2))
 * [quit](#idf4a61a2d64096d92e0b3c094bb55b27f) ([core.sh](#id9a3132e6272f32dafc2231703598e6a9))
+* [randpw](#idfa4d2a7682d9fdbb25c07ce8394da1e7) ([randpw.sh](#idc9c99aabd02e0f1f60565b21c48f1845))
 * [rotate](#idb1bc78262ce2d419f4bbd1a0b6b1dcaf) ([rotate.sh](#id32936da437148dd5f08db046297b455e))
 * [sdep](#idb68b04cc4e001a96c2902d075b57039c) ([sdep.sh](#idb9f2656e147700a022cc3bd69b3fc9d2))
 * [shell_escape](#id5c9e0d5935ecd7b69ec967a316ba8a09) ([shesc.sh](#ida0fec3c3924f6b7d92a1a735fdfef9bd))
 * [solv_ln](#id5fa6216b7f8aa6562af0cee098da4977) ([solv_ln.sh](#id7cd3c163f5946f312d8d67438718e7f1))
+* [spk_crypt](#id4e34e58f0a8e67a3f4311699d605d536) ([spk_enc.sh](#idbd3949c6c3cff681feef8d49312e9310))
 * [spk_decrypt](#id6be32e83c4383dfa860034e605fd10ca) ([spk_enc.sh](#idbd3949c6c3cff681feef8d49312e9310))
 * [spk_encrypt](#id100ba1ad39db5602f68e4fce4fad8227) ([spk_enc.sh](#idbd3949c6c3cff681feef8d49312e9310))
+* [spk_pem_decrypt](#idead3561114f598a3e9a2202e7a6c2683) ([spk_enc.sh](#idbd3949c6c3cff681feef8d49312e9310))
+* [spk_pem_encrypt](#id5abc89c8067654c9f8e0be36d67c54a4) ([spk_enc.sh](#idbd3949c6c3cff681feef8d49312e9310))
+* [spk_private_key](#id5f3e327d9297d153c1710627eb53edb6) ([spk_enc.sh](#idbd3949c6c3cff681feef8d49312e9310))
+* [spk_public_key](#idb79a0e4af17f4148ab6d5ef84aec9627) ([spk_enc.sh](#idbd3949c6c3cff681feef8d49312e9310))
 * [sppinc](#id7b8947faa83df0570502472204954850) ([pp.sh](#idb3466428ed7fa15c0c78fb8fea22d1e2))
 * [urldecode](#ida6f070dd764a74fc912948e0b572ac89) ([urlencode.sh](#id0a29b969f7d331f4462051a135e2e4d4))
 * [urlencode](#id7bac90220760ff12ae0cb10b74754208) ([urlencode.sh](#id0a29b969f7d331f4462051a135e2e4d4))
@@ -71,6 +82,33 @@ This is a implicit module automatically invoked by:
    eval $(ashlib)
 
 The `core` module is included automatically.
+
+
+
+### <a name="id271fc5b5d259b5634a1fc97aea302ae7"></a>find_in_path
+
+  Find a file in a path
+
+#### USAGE
+
+  find_in_path [--path=PATH] file
+
+#### OPTIONS
+
+* --path=PATH : don't use $PATH but the provided PATH
+
+#### DESC
+
+Find a file in the provided path or PATH environment
+variable.
+
+#### RETURNS
+
+0 if found, 1 if not found
+
+#### OUTPUT
+
+full path of found file
 
 
 
@@ -103,15 +141,49 @@ Include an `ashlib` module.
 
 #### USAGE
 
-  include module [other modules ...]
+  include [--once] module [other modules ...]
 
 #### ARGS
 
+* --once|-1 : if specified, modules will not be included more than once
 * module -- module to include
 
 #### RETURNS
 
 0 on success, otherwise the number of failed modules.
+
+
+
+## <a name="id9019d8761ef8d7214af93c55e2822f54"></a>cfv.sh
+
+Configurable variables
+
+Define variables only if not specified.  It is used to
+configure things via environment variables and provide
+suitable defaults if there is none.
+
+The way it works is to simply call the command like this:
+
+VARIABLE=value command args
+
+Then in the script, you woudld do:
+
+cfv VARIABLE default
+
+
+
+### <a name="id1312191e776d42f9933d3b5ad9dec8d0"></a>cfv
+
+Define a configurable variable
+
+#### USAGE
+
+   cfv VARNAME value
+
+#### ARGS
+
+* VARNAME -- variable to define
+* value -- default to use
 
 
 
@@ -157,27 +229,6 @@ exit_code.
 #### USAGE
 
   warn message
-
-
-
-## <a name="ide9e1981fe1fef13b9aff00957c4fdfa8"></a>find_in_path.sh
-
-### <a name="id3a00c6478895b0e4c86cc53e4e638244"></a>find_in_path
-
-  Find a file in a path
-
-#### USAGE
-
-  find_in_path [--path=PATH] file
-
-#### OPTIONS
-
-* --path=PATH : don't use $PATH but the provided PATH
-
-#### DESC
-
-Find a file in the provided path or PATH environment
-variable.
 
 
 
@@ -263,6 +314,38 @@ Function to update symlinks
 
 Note that this will first check if the symlink needs to be corrected.
 Otherwise no action is taken.
+
+
+
+## <a name="id509df82dd312617c416423e9f62124a8"></a>jobqueue.sh
+
+### <a name="idac06567f4f6638a3f132e9caf0eb92a2"></a>job_queue
+
+Run jobs in a queue
+
+#### USAGE
+
+  <job generator> | job_queue [--workers=n] job_cmd [args]
+
+#### OPTIONS
+
+* --workers=n -- number of worker threads (defaults to 4)
+* --verbose : output messages
+* job_cmd -- command to execute
+* args -- optional arguments
+
+#### RETURNS
+
+1 on error
+
+#### DESC
+
+
+
+
+### <a name="ida29d42d961b6ff56e596cc934cc3dc79"></a>job_worker
+
+This is the worker thread function
 
 
 
@@ -488,6 +571,26 @@ whereas commands can be embedded as `$(command call)`.
 
 ### <a name="id7b8947faa83df0570502472204954850"></a>sppinc
 
+## <a name="idc9c99aabd02e0f1f60565b21c48f1845"></a>randpw.sh
+
+### <a name="idfa4d2a7682d9fdbb25c07ce8394da1e7"></a>randpw
+
+Generate a random password
+
+#### Usage
+
+   randpw [cnt]
+
+#### ARGS
+
+* cnt - password length
+
+#### OUTPUT
+
+Random password
+
+
+
 ## <a name="id5b306578a1c827d077d30e27023183a3"></a>refs.sh
 
 Symbolic/Reference functions
@@ -660,28 +763,93 @@ paths.
 
 ## <a name="idbd3949c6c3cff681feef8d49312e9310"></a>spk_enc.sh
 
-### <a name="id6be32e83c4383dfa860034e605fd10ca"></a>spk_decrypt
+### <a name="id4e34e58f0a8e67a3f4311699d605d536"></a>spk_crypt
 
-Decrypt `stdin` using a `ssh` private key.
-
-Password source can be one of the following:
-
-- pass:text
-- file:path
-- env:var
-- fd:number
-- stdin
-
+Encrypt or decrypt `stdin` using a `ssh` public/private key.
 
 #### USAGE
 
-    spk_decrypt [--base64] <private_key>
+    spk_crypt [--encrypt|--decrypt] [--base64] [--passwd=xxxx] [--public|--private|--auto] <key-file>
+
+#### ARGS
+
+
+#### --encrypt : set encrypt mode
+
+
+#### --decrypt : set decrypt mode
+
+* --base64 : if specified, data will be base64 encoded.
+* --passwd=xxxx : password for encrypted private key (if any)
+* --public : use public key
+* --private : use private key
+* --auto : key type is determined from file.
+* key-file :  key file to use.  If it contains multiple public keys, the first `rsa` key found is used.
+
+#### OUTPUT
+
+Encrypted/Decrypted data
+
+
+
+### <a name="id6be32e83c4383dfa860034e605fd10ca"></a>spk_decrypt
+
+Decrypt `stdin` using a `ssh` public/private key.
+
+#### USAGE
+
+    spk_decrypt [--base64] [--passwd=xxxx] [--public|--private|--auto] <key-file>
 
 #### ARGS
 
 * --base64 : if specified, data will be base64 encoded.
-* --passwd=password : password source
-* private_key : private key file to use.
+* --passwd=xxxx : password for encrypted private key (if any)
+* --public : use public key
+* --private : use private key
+* --auto : key type is determined from file.
+* key-file :  key file to use.  If it contains multiple public keys, the first `rsa` key found is used.
+
+#### OUTPUT
+
+Encrypted data
+
+
+
+### <a name="id100ba1ad39db5602f68e4fce4fad8227"></a>spk_encrypt
+
+Encrypt `stdin` using a `ssh` public/private key.
+
+#### USAGE
+
+    spk_encrypt [--base64] [--passwd=xxxx] [--public|--private|--auto] <key-file>
+
+#### ARGS
+
+* --base64 : if specified, data will be base64 encoded.
+* --passwd=xxxx : password for encrypted private key (if any)
+* --public : use public key
+* --private : use private key
+* --auto : key type is determined from file.
+* key-file :  key file to use.  If it contains multiple public keys, the first `rsa` key found is used.
+
+#### OUTPUT
+
+Encrypted data
+
+
+
+### <a name="idead3561114f598a3e9a2202e7a6c2683"></a>spk_pem_decrypt
+
+Decrypt `stdin` using a `PKCS8/PEM` key.
+
+#### USAGE
+
+    spk_decrypt [--base64] <key-file>
+
+#### ARGS
+
+* --base64 : input data is base64 encoded
+* key-file : key file to use.
 
 #### OUTPUT
 
@@ -689,22 +857,61 @@ De-crypted data
 
 
 
-### <a name="id100ba1ad39db5602f68e4fce4fad8227"></a>spk_encrypt
+### <a name="id5abc89c8067654c9f8e0be36d67c54a4"></a>spk_pem_encrypt
 
-Encrypt `stdin` using a `ssh` public key.
+Encrypt `stdin` using a `PKCS8/PEM` key.
 
 #### USAGE
 
-    spk_encrypt [--base64] <public_key>
+    spk_pem_encrypt [--base64] <key-file>
 
 #### ARGS
 
 * --base64 : if specified, data will be base64 encoded.
-* public_key : public key file to use.  Will use the first `rsa` key found
+* key-file : key file to use.
 
 #### OUTPUT
 
 Encrypted data
+
+
+
+### <a name="id5f3e327d9297d153c1710627eb53edb6"></a>spk_private_key
+
+Prepare a private key
+
+#### USAGE
+
+    spk_private [--passwd=xxx] <key-file> <output>
+
+#### ARGS
+
+* key-file : key file to use
+* output : output file to use
+* --passwd=password : password for private key
+
+#### DESC
+
+Reads a OpenSSH private key and create a key file usable by OpenSSL
+
+
+
+### <a name="idb79a0e4af17f4148ab6d5ef84aec9627"></a>spk_public_key
+
+Prepare a public key
+
+#### USAGE
+
+    spk_public <key-file> <output>
+
+#### ARGS
+
+* key-file : public key file to use.  Will use the first `rsa` key found
+* output : output file to use
+
+#### DESC
+
+Reads a OpenSSH public key and create a key file usable by OpenSSL
 
 
 
