@@ -81,7 +81,7 @@ fi
 #
 vars=""
 cfg() {
-  local kv k v cmd cvars=""
+  local kv k v cmd
   for kv in "$@"
   do
     k="$(echo "$kv" | cut -d= -f1)"
@@ -95,9 +95,8 @@ cfg() {
       cmd="$k='$v';"
     fi
     vars="$vars$cmd"
-    cvars="$cvars$cmd"
+    export "$k=$v"
   done
-  eval "$cvars"
 }
 remote_target() {
   _bashonly_remote_target "$@"

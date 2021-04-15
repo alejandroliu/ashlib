@@ -90,12 +90,12 @@ set -euf -o pipefail
 
 mydir=$(dirname "$(readlink -f "$0")")
 if [ -e "$mydir/pp.sh" ] ; then
-  . "$mydir/pp.sh"
-  . "$mydir/find_in_path.sh"
+  export ASHLIB="$mydir"
+  . "$mydir/ashlib.sh"
+  include pp.sh
 elif type ashlib >/dev/null 2>&1 ; then
   eval $(ashlib)
   include pp.sh
-  include find_in_path.sh
 else
   echo "Error: unable to find library" 1>&2
   exit 1
