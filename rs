@@ -382,6 +382,7 @@ pl_ping() {
 #
 # Environment files
 #
+[ -f "$HOME/secrets.cfg" ] && . "$HOME/secrets.cfg"
 [ -f "$mydir.env" ] && . "$mydir.env"
 if [ -n "${RUN_ENVFILE:-}" ] ; then
   [ -f "${RUN_ENVFILE}" ] && . "${RUN_ENVFILE}"
