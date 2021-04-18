@@ -85,7 +85,6 @@ export ASHLIB="$ashlib"
 . "$ashlib/ashlib.sh"
 . "$ashlib/shesc.sh"
 
-exit
 if [ $# -gt 0 ] && [ x"$1" = x"-s" ] ; then
   # Run using script...
   shift
