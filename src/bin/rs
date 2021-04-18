@@ -20,7 +20,21 @@ set -euf -o pipefail
 mydir="$(cd "$(dirname "$0")" && pwd)"
 
 if [ -L "$0" ] ; then
-  ashlib=$(dirname $(readlink -f "$0"))
+  basedir=$(dirname $(readlink -f "$0"))
+  if [ -d "$(dirname "$basedir")/lib/ashlib/ashlib" ] ; then
+    ashlib="$(dirname "$basedir")/lib/ashlib/ashlib"
+  elif [ -d "$(dirname "$basedir")/lib/ashlib/lib" ] ; then
+    ashlib="$(dirname "$basedir")/lib/ashlib/lib"
+  elif [ -d "$(dirname "$basedir")/lib/ashlib" ] ; then
+    ashlib="$(dirname "$basedir")/lib/ashlib"
+  elif [ -d "$(dirname "$basedir")/ashlib" ] ; then
+    ashlib="$(dirname "$basedir")/ashlib"
+  elif [ -f "$(dirname "$basedir")/lib/ashlib.sh" ] ; then
+    ashlib="$(dirname "$basedir")/lib"
+  else
+    echo "Missing ashlib folder" 1>&2
+    exit 36
+  fi
 else
   # First check if submodules are there...
   if [ -d "$mydir/.git" ] ; then
@@ -38,24 +52,30 @@ else
 
   if [ -L "$mydir/.ashlib" ] ; then
     # Check if there is a run-time file...
-    ashlib="$mydir/.ashlib"
-  elif [ -d "$mydir/ashlib" ] ; then
-    ashlib="$mydir/ashlib"
+    ashlib="$mydir/.ashlib/ashlib"
+  elif [ -d "$mydir/ashlib/src/ashlib" ] ; then
+    ashlib="$mydir/ashlib/src/ashlib"
+  elif [ -d "$mydir/modules/ashlib/src/ashlib" ] ; then
+    ashlib="$mydir/modules/ashlib/src/ashlib"
+  elif [ -d "$(dirname "$mydir")/ashlib" ] ; then
+    ashlib="$(dirname "$mydir")/ashlib"
   else
     echo "Missing \"ashlib\"" 1>&2
     exit 1
   fi
 
-  if [ ! -f "$ashlib/rs" ] ; then
-    echo "Missing \"ashlib/rs\" script" 1>&2
-    exit 2
+  rs_src=$(dirname "$ashlib")/bin/rs
+
+  if [ ! -f "$rs_src" ] ; then
+    echo "Missing \"rs\" source script" 1>&2
+    exit 68
   fi
 
   # Make sure this script and the submodule are in sync...
-  if ! cmp "$0" "$ashlib/rs" >/dev/null 2>&1 ; then
+  if ! cmp "$0" "$rs_src" >/dev/null 2>&1 ; then
     echo "Updating $0..." 1>&2
     rm -f "$0"
-    cp -a "$ashlib/rs" "$0"
+    cp -a "$$rs_src" "$0"
     exec "$SHELL" "$0" "$@"
     exit $?
   fi
@@ -65,6 +85,7 @@ export ASHLIB="$ashlib"
 . "$ashlib/ashlib.sh"
 . "$ashlib/shesc.sh"
 
+exit
 if [ $# -gt 0 ] && [ x"$1" = x"-s" ] ; then
   # Run using script...
   shift
