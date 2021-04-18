@@ -1,0 +1,9 @@
+--
+-- Testing definitions
+--
+
+syntax(2)
+test_suite('ashlib')
+
+atf_test_program{name='randpw.sh'}
+
