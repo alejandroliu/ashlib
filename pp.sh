@@ -176,7 +176,7 @@ ppCmd() {
   rc=0
   done='[OK]'
   if [ -n "$output" ]  ; then
-    name=$(basename "$output" | tr A-Z a-z | sed -e 's/^\([a-z0-9]*\).*$/\1/')
+    name=$(basename "$output" | tr A-Z a-z | sed -e 's/^\([_a-z0-9]*\).*$/\1/')
     [ x"$output" != x"-" ] && exec > "$output"
 
     if [ -n "$query" ] ; then
@@ -197,7 +197,7 @@ ppCmd() {
       else
 	[ $# -gt 1 ] && echo -n "$input " 1>&2
 	if ! (
-		name=$(basename "$input" | tr A-Z a-z | sed -e 's/^\([a-z0-9]*\).*$/\1/')
+		name=$(basename "$input" | tr A-Z a-z | sed -e 's/^\([_a-z0-9]*\).*$/\1/')
 		exec <"$input" ; export PATH="$(dirname "$input"):$PATH" ; pp
 	     ) ; then
 	  rc=1
@@ -216,7 +216,7 @@ ppCmd() {
 	continue
       fi
 
-      name=$(basename "$input" | tr A-Z a-z | sed -e 's/^\([a-z0-9]*\).*$/\1/')
+      name=$(basename "$input" | tr A-Z a-z | sed -e 's/^\([_a-z0-9]*\).*$/\1/')
       output=$(echo "$input" | sed -e 's/\.m\.\([^.]*\)$/.\1/')
       [ x"$output" = x"$input" ] && output="$input.out"
 
