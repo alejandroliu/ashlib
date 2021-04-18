@@ -2,6 +2,20 @@
 #
 # Run snippets
 #
+# Snippets:
+#
+# ii_XXXX : variable, contains snippet description
+# pl_XXXX : function to be run in the target
+# ll_XXXX : function to be run on local host, output is send as a
+#	    command on target.
+# jl_XXXX : snippet run on local host
+#
+# spp_autolocal : auto start-up function run on local host
+# spp_autoexec : auto start-up function run on target
+# spp_autoend : auto clean-up function run on target
+# spp_autoendlocal : auto clean-up function run on local host
+#
+
 set -euf -o pipefail
 mydir="$(cd "$(dirname "$0")" && pwd)"
 
@@ -22,28 +36,34 @@ else
     fi
   fi
 
-  if [ ! -d "$mydir/ashlib" ] ; then
+  if [ -L "$mydir/.ashlib" ] ; then
+    # Check if there is a run-time file...
+    ashlib="$mydir/.ashlib"
+  elif [ -d "$mydir/ashlib" ] ; then
+    ashlib="$mydir/ashlib"
+  else
     echo "Missing \"ashlib\"" 1>&2
     exit 1
-  else
-    if [ ! -f "$mydir/ashlib/rs" ] ; then
-      echo "Missing \"ashlib/rs\" script" 1>&2
-      exit 2
-    fi
-    # Make sure this script and the submodule are in sync...
-    if ! cmp "$0" "$mydir/ashlib/rs" >/dev/null 2>&1 ; then
-      echo "Updating $0..." 1>&2
-      rm -f "$0"
-      cp -a "$mydir/ashlib/rs" "$0"
-      exec "$SHELL" "$0" "$@"
-      exit $?
-    fi
   fi
-  ashlib="$mydir/ashlib"
+
+  if [ ! -f "$ashlib/rs" ] ; then
+    echo "Missing \"ashlib/rs\" script" 1>&2
+    exit 2
+  fi
+
+  # Make sure this script and the submodule are in sync...
+  if ! cmp "$0" "$ashlib/rs" >/dev/null 2>&1 ; then
+    echo "Updating $0..." 1>&2
+    rm -f "$0"
+    cp -a "$ashlib/rs" "$0"
+    exec "$SHELL" "$0" "$@"
+    exit $?
+  fi
 fi
 
+export ASHLIB="$ashlib"
+. "$ashlib/ashlib.sh"
 . "$ashlib/shesc.sh"
-. "$ashlib/find_in_path.sh"
 
 if [ $# -gt 0 ] && [ x"$1" = x"-s" ] ; then
   # Run using script...
@@ -61,20 +81,22 @@ fi
 #
 vars=""
 cfg() {
-  local kv k v cmd cvars=""
+  local kv k v cmd
   for kv in "$@"
   do
     k="$(echo "$kv" | cut -d= -f1)"
-    v="$(echo "$kv" | cut -d= -f2-)"
+    eval v=\"\${$k:-}\"
+    if [ -z "$v" ] ; then
+      v="$(echo "$kv" | cut -d= -f2-)"
+    fi
     if (echo "$v" | grep -q "'") ; then
       cmd="$k=$(shell_escape "$v");"
     else
       cmd="$k='$v';"
     fi
     vars="$vars$cmd"
-    cvars="$cvars$cmd"
+    export "$k=$v"
   done
-  eval "$cvars"
 }
 remote_target() {
   _bashonly_remote_target "$@"
@@ -123,7 +145,7 @@ load_snippets() {
   #
   # Include snippets ... be careful not to include the same file twice
   #
-  include_once snippets.sh "$mydir/snippets.sh"  ${RS_SNIPPETS:-}    
+  include_once snippets.sh "$mydir/snippets.sh"  ${RS_SNIPPETS:-}
 }
 
 setx="${RS_SETX:-false}"
@@ -141,13 +163,13 @@ do
   -l|--local)
     run_cmd=( do_local )
     remote_target() {
-      no_remote_target
+      no_remote_target "$@"
     }
     ;;
   --target=*)
     remote_target ${1#--target=}
     remote_target() {
-      no_remote_target
+      no_remote_target "$@"
     }
     ;;
   --*=*)
@@ -250,19 +272,19 @@ _bashonly_do_ssh() {
 
   if [ "$pp" = "jl" ] ; then
     # This is just a local snippet without any bells or wistles
-    run_local_fn --prefix="jl_" "$@"      
+    run_local_fn --prefix="jl_" "$@"
     return $?
   fi
 
   exec 3>&1 # Remember stdout...
-  ( 
+  (
     # Create executable payload
     echo "set -euf"
     $setx && echo "set -x"
 
     type spp_autolocal >/dev/null 2>&1 && spp_autolocal
     echo "$vars"
-    
+
     for f in core fixattr fixfile fixlnk kvped shesc solv_ln urlencode on_exit ${RS_ASHMODS:-}
     do
       cat $ashlib/$f.sh
@@ -284,7 +306,7 @@ _bashonly_do_ssh() {
       echo -n "pl_$1" ; shift
       for f in "$@"
       do
-	echo -n " $(shell_escape "$f")" 
+	echo -n " $(shell_escape "$f")"
       done
       echo ''
     fi
@@ -360,6 +382,7 @@ pl_ping() {
 #
 # Environment files
 #
+[ -f "$HOME/secrets.cfg" ] && . "$HOME/secrets.cfg"
 [ -f "$mydir.env" ] && . "$mydir.env"
 if [ -n "${RUN_ENVFILE:-}" ] ; then
   [ -f "${RUN_ENVFILE}" ] && . "${RUN_ENVFILE}"
