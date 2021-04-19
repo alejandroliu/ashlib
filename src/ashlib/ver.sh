@@ -1,7 +1,22 @@
 #!/bin/sh
 #
+#****h* ashlib/ver
+# FUNCTION
+# Functions related to version names
+#****
 
 gitver() {
+#****f* ver/gitver
+# NAME
+#   gitver -- Determine the current version information from git
+# SYNOPSIS
+#   gitver _git-directory_
+# ARGUMENTS
+# * git-directory : Directory to the git repository
+# OUTPUT
+# version information
+#****
+
 ## Determine the current version information from git
 ## # USAGE
 ##     gitver _git-directory_
@@ -13,9 +28,9 @@ gitver() {
   if [ -d "$dir/.git" ] ; then
     if type git >/dev/null 2>&1 ; then
       # Git exists...
-      local git="git --git-dir=$dir/.git"
-      desc=$($git describe --dirty=,M 2>/dev/null)
-      branch_name=$($git symbolic-ref -q HEAD)
+      local gitdir="--git-dir=$dir/.git"
+      desc=$(git $gitdir describe --dirty=,M 2>/dev/null)
+      branch_name=$(git $gitdir symbolic-ref -q HEAD)
       branch_name=${branch_name##refs/heads/}
       branch_name=${branch_name:-HEAD}
       if [ "master" = "$branch_name" ] ; then
