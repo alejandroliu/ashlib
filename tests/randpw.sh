@@ -8,7 +8,7 @@ include -1 randpw.sh
 xt_randpw_len() {
   : =descr "check is generated passwords meet lenght criteria"
   local q p
-  for q in $(seq 4 128)
+  for q in $(seq 4 4 128)
   do
     p="$(randpw $q)"
     [ $q -eq "$(expr length "$p")" ] || atf_fail "$q: $p length error"

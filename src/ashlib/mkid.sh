@@ -13,5 +13,6 @@ mkid() {
   ## # DESC
   ## Given an arbitrary input text, this creates a suitable id for
   ## it.
-  echo "$*" | tr ' -' '__' | tr -dc '_A-Za-z0-9'
+  echo "$*" | tr ' -' '__' | tr -dc '_A-Za-z0-9' \
+  		| sed -e 's/^\([0-9]\)/_n\1/'
 }
