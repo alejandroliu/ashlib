@@ -1,8 +1,27 @@
 #!/bin/sh
+#
+#****h* ashlib/mkid
+# FUNCTION
+# Create arbintrary id strings
+#****
+
 ##
 ## Arbitrary id strings
 ##
 mkid() {
+  #****f* mkid/mkid
+  # NAME
+  #   mkid -- create arbitrary id strings
+  # SYNOPSIS
+  #   mkid _text_
+  # INPUTS
+  # * text -- text to convert into id
+  # OUTPUT
+  # Sanitized text
+  # FUNCTION
+  # `mkid` accepts a string and sanitizes it so
+  # that it can be used as a shell variable name
+  #****
   ## create arbitrary id strings
   ## # USAGE
   ## mkid txt

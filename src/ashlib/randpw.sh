@@ -1,8 +1,22 @@
 #!/bin/sh
 #
-#
+#****h* ashlib/randpw
+# FUNCTION
+# Generate random passwords
+#****
 
 randpw() {
+  #****f* randpw/randpw
+  # NAME
+  #   randpw -- Genrate random password
+  # SYNOPSIS
+  #   randpw [length]
+  # ARGUMENTS
+  # * length : password length
+  # OUTPUT
+  # random password of the specified length
+  #****
+
   ## Generate a random password
   ## # Usage
   ##    randpw [cnt]
