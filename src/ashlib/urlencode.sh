@@ -14,11 +14,23 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Functions for URL encoding/decoding
+#****h* ashlib/urlencode
+# FUNCTION
+# Functions releated to URL encoding and decoding
+#****
+
+
 urlencode() {
-  ## URL encodes to escape special characters
-  ## # USAGE
-  ##   urlencode text
+  #****f* urlencode/urlencode
+  # NAME
+  #   urlencode -- encode string according to URL escape rules
+  # SYNOPSIS
+  #   urlencode _string_
+  # ARGUMENTS
+  # * string : string to encode
+  # OUTPUT
+  # Encoded string
+  #****
   local l=${#1}
 
   local i=0; while [ $i -lt $l ]
@@ -34,9 +46,16 @@ urlencode() {
 }
 
 urldecode() {
-  ## Decodes URL encoded strings
-  ## # USAGE
-  ##   urldecode text
+  #****f* urlencode/urldecode
+  # NAME
+  #   urldecode - decode URL encoded strings
+  # SYNOPSIS
+  #   urldecode _string_
+  # ARGUMENTS
+  # * string : string to decode
+  # OUTPUT
+  # Decoded strings
+  #****
   local data=${1//+/ }
-  printf '%b' "${data//%/\x}"
+  printf '%b' "${data//%/\\x}"
 }
