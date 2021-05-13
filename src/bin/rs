@@ -4,7 +4,9 @@
 #
 # Snippets:
 #
-# ii_XXXX : variable, contains snippet description
+# ii_XXXX : variable, contains snippet description (DEPRECATED)
+# In the function include the line:
+#	: DESC "text description"
 # pl_XXXX : function to be run in the target
 # ll_XXXX : function to be run on local host, output is send as a
 #	    command on target.
@@ -219,11 +221,27 @@ if [ $# -eq 0 ] ; then
 	  load_snippets
 	  declare -F | grep '^declare -f [jpl]l_' | sed 's/^declare -f [jpl]l_//' | sort -u |while read f
 	  do
-	    eval g='"${ii_'$f':-}"'
+	    cc=$(
+	      (
+		# Make a list of the functions to be used
+		declare -F jl_$f || :
+		declare -F pl_$f || :
+		declare -F ll_$f || :
+	      ) | sed 's/^declare -f//' | xargs
+	    )
+	    g=$(declare -f $cc \
+			| awk '$1 == ":" && $2 == "DESC" { $1=""; $2=""; print }' \
+			| sed -e 's/;$//' -e 's/^ *//' )
+
+	    # DEPRECATED
+	    [ -z "$g" ] && eval g='"${ii_'$f':-}"'
+
+	    cc=$(echo "$cc" | tr " " "\n" | cut -c-2 | xargs)
+
 	    if [ -n "$g" ] ; then
-	      echo "- $f : $g"
+	      echo "- $f : $g ($cc)"
 	    else
-	      echo "- $f"
+	      echo "- $f : ($cc)"
 	    fi
 	  done
 	)
